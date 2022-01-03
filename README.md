@@ -1,6 +1,29 @@
 # dotfiles
 
 Terminal Theme(s): One Dark (Atom), Nord, Dracula
+*One Dark:*
+[Colors]
+DefaultColorScheme=0
+Black=33,37,43
+BoldBlack=33,37,43
+Red=224,108,117
+BoldRed=224,108,117
+Green=152,195,121
+BoldGreen=152,195,121
+Yellow=229,192,123
+BoldYellow=229,192,123
+Blue=97,175,239
+BoldBlue=97,175,239
+Magenta=198,120,221
+BoldMagenta=198,120,221
+Cyan=86,182,194
+BoldCyan=86,182,194
+White=171,178,191
+BoldWhite=171,178,191
+ForegroundColour=171,178,191
+BackgroundColour=33,37,43
+CursorColour=171,178,191
+SyntaxType=2
 
 Configure your terminal to use this font:
 - **iTerm2**: Type `p10k configure` and answer `Yes` when asked whether to install
