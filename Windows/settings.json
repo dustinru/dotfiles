@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Gruvbox Material Dark",
+    "remote.SSH.remotePlatform": {
+        "10.0.0.102": "linux"
+    },
+    "workbench.startupEditor": "none",
+    "terminal.integrated.fontFamily": "MesloLGS NF"
+}
