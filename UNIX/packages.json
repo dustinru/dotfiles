@@ -1,0 +1,13 @@
+{
+	"add-apt-repository":[
+		"ppa:neovim-ppa/stable"
+	],
+	"apt-get":[
+		"nodejs",
+		"npm",
+		"neovim"
+	],
+	"npm":[
+		"tldr"
+	]
+}
