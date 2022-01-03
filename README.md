@@ -1,7 +1,8 @@
 # dotfiles
 
-Terminal Theme(s): One Dark (Atom), Nord, Dracula
-*One Dark:*
+## Terminal Theme(s): One Dark (Atom), Gruvbox Material
+**One Dark**
+```
 [Colors]
 DefaultColorScheme=0
 Black=33,37,43
@@ -24,7 +25,32 @@ ForegroundColour=171,178,191
 BackgroundColour=33,37,43
 CursorColour=171,178,191
 SyntaxType=2
-
+```
+**Gruvbox Material**
+```
+[Colors]
+DefaultColorScheme=0
+Black=60,56,54
+BoldBlack=90,82,76
+Red=184,86,81
+BoldRed=184,86,81
+Green=143,154,82
+BoldGreen=169,182,101
+Yellow=193,143,65
+BoldYellow=216,166,87
+Blue=104,148,138
+BoldBlue=125,174,163
+Magenta=171,108,125
+BoldMagenta=211,134,155
+Cyan=114,150,108
+BoldCyan=137,180,130
+White=168,153,131
+BoldWhite=221,199,161
+ForegroundColour=212,190,152
+BackgroundColour=50,48,47
+CursorColour=221,199,161
+SyntaxType=2
+```
 Configure your terminal to use this font:
 - **iTerm2**: Type `p10k configure` and answer `Yes` when asked whether to install
      *Meslo Nerd Font*. Alternatively, open *iTerm2 → Preferences → Profiles → Text* and set *Font* to
