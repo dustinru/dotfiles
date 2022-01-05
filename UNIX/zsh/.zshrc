@@ -79,6 +79,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
+	tmux
+	sudo
+	copydir
+	copyfile
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 )
@@ -115,3 +119,9 @@ for config (~/.zsh/*.zsh) source $config
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # neofetch
+
+# fzf startup for github installation
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Source autojump (for Ubuntu)
+source /usr/share/autojump/autojump.zsh
