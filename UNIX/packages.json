@@ -1,13 +1,19 @@
 {
-	"add-apt-repository":[
-		"ppa:neovim-ppa/stable"
-	],
 	"apt-get":[
 		"nodejs",
 		"npm",
-		"neovim"
+		"fd-find",
+		"tmux"
 	],
 	"npm":[
 		"tldr"
+	],
+	"brew":[
+		"git-delta",
+		"neovim",
+		"fd",
+		"tmux"
+	],
+	"cargo":[
 	]
 }
