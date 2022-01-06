@@ -1,5 +1,6 @@
 # Packer files
-/nvim/lua/plugin
+/nvim/plugin
+packer_compiled.lua
 
 # zsh
 .zsh/data
