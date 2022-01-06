@@ -1,0 +1,16 @@
+# Packer files
+/nvim/lua/plugin
+
+# zsh
+.zsh/data
+.zsh/data/*
+.zsh/*local
+.zsh/*.swp
+.zsh_history
+zsh_history
+
+# bash
+.*.swp
+.bash_history
+.bash_local
+.bash_logout
