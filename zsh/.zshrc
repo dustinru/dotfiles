@@ -124,4 +124,7 @@ for config (~/.zsh/*.zsh) source $config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Source autojump (for Ubuntu)
-source /usr/share/autojump/autojump.zsh
+if [ -f /usr/share/autojump/autojump.zsh ]; then
+  source /usr/share/autojump/autojump.zsh
+fi
+export COLORTERM=truecolor
