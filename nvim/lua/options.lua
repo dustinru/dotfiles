@@ -31,4 +31,4 @@ opt.updatetime = 300                        -- Faster completion
 opt.timeoutlen = 500                        -- By default timeoutlen is 1000 ms
 opt.formatoptions:remove('cro')             -- Stop newline continution of comments
 opt.clipboard = 'unnamedplus'               -- Copy paste between vim and everything else
-opt.completeopt = 'menu,menuone,noselect'   --
+opt.completeopt = 'menu,menuone,noselect'   -- Completion for nvim-cmp

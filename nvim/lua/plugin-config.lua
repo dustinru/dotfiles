@@ -28,6 +28,7 @@ lualine.setup {
     tabline = {},
     extensions = {}
 }
+-- Treesitter config
 local treesitter = require'nvim-treesitter.configs'
 treesitter.setup {
     -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -141,14 +142,14 @@ npairs.add_rules({
     :with_pair(ts_conds.is_not_ts_node({'function'}))
 })
 cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
--- Snap
+--[[ Snap
 local snap = require'snap'
 snap.maps {
   {"<Leader><Leader>", snap.config.file {producer = "ripgrep.file"}},
   {"<Leader>fb", snap.config.file {producer = "vim.buffer"}},
   {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}},
   {"<Leader>ff", snap.config.vimgrep {}},
-}
+}]]
 -- lsp signature w/ full default config
 cfg = {
   debug = false, -- set to true to enable debug logging
@@ -211,4 +212,13 @@ require'nvim-web-devicons'.setup {
   -- globally enable default icons (default to false)
   -- will get overriden by `get_icons` option
   default = true;
+}
+-- indent-blankline Simple config
+vim.opt.list = true
+vim.opt.listchars:append("eol:↴")
+require("indent_blankline").setup {
+  -- for example, context is off by default, use this to turn it on
+  show_current_context = true,
+  show_current_context_start = true,
+  show_end_of_line = true,
 }

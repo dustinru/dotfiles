@@ -48,6 +48,7 @@ return require('packer').startup({
       run = ':TSUpdate'
     }
     use 'ntpeters/vim-better-whitespace'
+    use "lukas-reineke/indent-blankline.nvim"
     use 'ap/vim-css-color'
     -- UI Additions
     use {
@@ -55,7 +56,10 @@ return require('packer').startup({
       requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
     use 'mhinz/vim-signify'
-    use 'camspiers/snap'
+    --use 'camspiers/snap'
+    use { 'ibhagwan/fzf-lua',
+      requires = { 'kyazdani42/nvim-web-devicons' }
+    }
     use 'ray-x/lsp_signature.nvim'
     -- Popup keybindings
     use {
