@@ -11,9 +11,10 @@ alias vim=nvim                          # set nvim as default vim
 alias vi=nvim                           # set nvim as default vi
 alias ipconfig=ifconfig                 # alias for ifconfig to avoid error
 alias ports='ss -tulanp'                # view port status
+alias bat=batcat                        # alias for bat on Ubuntu
 # [Shortcuts]
 alias h='history|grep'                          # search cli history
-alias j='jobs -l'                               # list running jobs
+alias jstat='jobs -l'                           # list running jobs
 alias mtr='sudo /usr/local/sbin/mtr'            # mtr shortcut
 alias reload='source ~/.zshrc'                  # reload terminal
 alias y='yarn'
@@ -22,4 +23,4 @@ alias zshconfig='sudo nvim ~/.zshrc'            # edit zsh config file
 alias help=tldr                                 # easier keyword to remember tldr
 alias c='clear'                                 # faster clear
 alias dev='cd ~/dev'                            # shortcut to dev folder
-
+alias zshalias='nvim ~/.zsh/aliases.zsh'        # shortcut to edit aliases
