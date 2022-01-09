@@ -17,6 +17,33 @@ A repository and setup for my dot files on Windows (WSL), MacOS, and Linux distr
 #### MacOS
 1. Install iterm2
 #### Linux
+##### How to install Neovim
+```
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+./nvim.appimage --appimage-extract
+./squashfs-root/AppRun --version
+```
+##### *Optional: Exposing nvim globally.*
+```
+mv squashfs-root /
+ln -s /squashfs-root/AppRun /usr/bin/nvim
+nvim
+```
+##### How to install Ripgrep (rg) and Bat (bat)
+```
+sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+```
+##### Determine architecture for .deb files (Linux)
+```
+dpkg --print-architecture
+```
+##### Download diff on Ubuntu
+```
+cd ~/tmp/
+wget -r -l1 --no-parent -Aamd64.deb https://github.com/dandavison/delta/releases/latest/download/
+dpkg -i git-delta*amd64.deb
+```
 #### General
 Configure your terminal to use monospace MesloLGS Nerd Font:
 - **iTerm2**: Type `p10k configure` and answer `Yes` when asked whether to install
@@ -37,7 +64,8 @@ Configure your terminal to use monospace MesloLGS Nerd Font:
        https://raw.githubcontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
      for example.
 ## How to use <a name="sec2"></a>
-## CLI Tools <a name="sec3"></a>
+## CLI Tools/Plugins List <a name="sec3"></a>
+#### UNIX (zsh)
 ```
 ag
 autojump
@@ -61,7 +89,7 @@ tldr
 tmux
 zsh
 ```
-## Neovim Plugins
+#### Neovim (Packer)
 ```
 'wbthomason/packer.nvim'
 'nathom/filetype.nvim'
@@ -95,7 +123,6 @@ zsh
 'kyazdani42/nvim-web-devicons'
 'folke/trouble.nvim'
 ```
-
 ## Color Themes <a name="sec4"></a>
 Personal Preference: Gruvbox Material
 ### ANSI Values
@@ -122,3 +149,5 @@ Personal Preference: Gruvbox Material
 | CursorColour | 221,199,161 | 171,178,191 |
 
 ## References <a name="sec5"></a>
+* [How to setup WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
+* [Prefixless tmux keymappings](https://zserge.com/posts/tmux/)
