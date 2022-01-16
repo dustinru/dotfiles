@@ -1,0 +1,28 @@
+--------------Prefixless key mappings for Tmux--------------
+
+OS      | Mod Key  
+------------------
+Windows | ALT
+MacOS   | OPTION
+
+[VIEW]------------------------------------------------------
+Mod + 1..9              |   switch to window 1 to 9
+Mod + ,                 |   switch to left window
+Mod + .                 |   switch to right window
+Mod + H/J/K/L           |   switch between panes L/D/U/R
+Mod + arrows            |   switch between panes L/D/U/R
+Mod + N                 |   create new window
+Mod + F                 |   toggle full-screen
+Mod + V                 |   split vertically
+Mod + B                 |   split horizontally (“bisect”)
+Mod + X                 |   close pane
+Mod + /                 |   enter copy and scroll mode
+[EDIT]------------------------------------------------------
+Mod + <                 |   move current window to the left
+Mod + >                 |   move current window to the right
+Mod + Shift + H/J/K/L   |   move pane to the L/D/U/R
+Mod + Shift + arrows    |   move pane to the L/D/U/R
+Mod + Shift + X         |   close window
+Mod + Shift + R         |   rename window
+
+Reference: https://zserge.com/posts/tmux/

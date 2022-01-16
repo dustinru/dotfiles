@@ -1,12 +1,12 @@
 # dotfiles
 A repository and setup for my dot files on Windows (WSL), MacOS, and Linux distros with a focus on zsh, neovim, and tmux.
 ## Table of Contents
-1. [Prerequisites](#sec1)
-2. [How to use](#sec2)
-3. [CLI Tools/Plugin List](#sec3)
-4. [Color Themes](#sec4)
-5. [References](#sec5)
-## Prerequisites <a name="sec1"></a>
+1. [Prerequisites](#prerequisites)
+2. [How to use](#how-to-use)
+3. [CLI Tools/Plugins List](#cli-toolsplugins-list)
+4. [Color Themes](#color-themes)
+5. [References](#references)
+## Prerequisites
 #### Windows
 1. Make sure to enable Virtualization
 2. In Bios
@@ -16,7 +16,7 @@ A repository and setup for my dot files on Windows (WSL), MacOS, and Linux distr
 6. Install Ubuntu 20.04 or your preferred OS.
 #### MacOS
 1. Install iterm2
-#### Linux
+#### Linux (Ubuntu/Debian)
 ##### How to install Neovim
 ```
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -63,8 +63,8 @@ Configure your terminal to use monospace MesloLGS Nerd Font:
      `fontFace`, add it under *profiles → defaults*. See [this settings file](
        https://raw.githubcontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
      for example.
-## How to use <a name="sec2"></a>
-## CLI Tools/Plugins List <a name="sec3"></a>
+## How to Use
+## CLI Tools/Plugins List
 #### UNIX (zsh)
 ```
 ag
@@ -89,7 +89,7 @@ tldr
 tmux
 zsh
 ```
-#### Neovim (Packer)
+#### Neovim v0.6+ (Packer)
 ```
 'wbthomason/packer.nvim'
 'nathom/filetype.nvim'
@@ -123,7 +123,7 @@ zsh
 'kyazdani42/nvim-web-devicons'
 'folke/trouble.nvim'
 ```
-## Color Themes <a name="sec4"></a>
+## Color Themes
 Personal Preference: Gruvbox Material
 ### ANSI Values
 | Color | Gruvbox Material | One Dark (Atom) |
@@ -148,6 +148,7 @@ Personal Preference: Gruvbox Material
 | BackgroundColour | 50,48,47 | 33,37,43 |
 | CursorColour | 221,199,161 | 171,178,191 |
 
-## References <a name="sec5"></a>
+## References
+* [Adding an SSH Key to Github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent)
 * [How to setup WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 * [Prefixless tmux keymappings](https://zserge.com/posts/tmux/)

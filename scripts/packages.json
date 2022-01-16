@@ -1,0 +1,30 @@
+{
+	"apt-get":[
+		"nodejs",
+		"npm",
+		"fd-find",
+		"tmux",
+		"silversearcher-ag",
+		"neofetch",
+		"net-tools"
+	],
+	"brew":[
+		"node",
+		"git-delta",
+		"neovim",
+		"fd",
+		"tmux",
+		"ripgrep",
+		"bat",
+		"autojump",
+		"the_silver_searcher",
+		"fzf",
+		"neofetch"
+	],
+	"npm":[
+		"tldr",
+		"markserv"
+	],
+	"cargo":[
+	]
+}
