@@ -24,7 +24,7 @@ msys*) echo "Unsupported system: Windows(DOS). Exiting script..."
 esac
 
 # Run through installation script for missing packages
-.scripts/install.sh "$MANAGER"
+"$DOTFILES_ROOT/scripts/install.sh" "$MANAGER"
 
 # Symlink ~/.dotfiles folder w/ config dot files
-.scripts/symlink.sh
+"$DOTFILES_ROOT/scripts/symlink.sh"

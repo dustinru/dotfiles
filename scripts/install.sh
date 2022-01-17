@@ -5,41 +5,48 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
+manager=$1
 if [ $1 = "apt-get" ]; then
     LIN_ARCH=$(dpkg --print-architecture)
 fi
 
-MANAGER=$1
-"$MANAGER" update && "$MANAGER" upgrade
+"$manager" update && "$manager" upgrade
 
-# [ZSH]
-# Install zsh if missing with oh-my-zsh
+
+# install core packages to run install script (hard-coded)
+core_list=("git" "curl" "jq" "wget")
+for val in ${core_list[@]}; do
+    if [ ! command -v $val &> /dev/null ]; then
+        "$manager" install $val
+    else
+        echo "$val is already installed"
+    fi
+done
+
+
+# Install zsh if missing w/ oh-my-zsh and p10k
 if [ ! command -v zsh &> /dev/null ]; then
-    $1 install zsh
+    $manager install zsh
     chsh -s $(which zsh)
 else
     echo "zsh is already installed"
 fi
-# Install oh-my-zsh and powerlevel10k
 if [ ! -d "~/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
-
 if [ ! -d "~/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
-
 if [ ! -d "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
-
 if [ ! -d "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 
 # Ubuntu-specific installation, if missing
-if [ $MANAGER = "apt-get" ]; then
+if [ $manager = "apt-get" ]; then
     # install neovim
     if [ ! command -v nvim &> /dev/null ]; then
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -78,14 +85,18 @@ if [ $MANAGER = "apt-get" ]; then
 fi
 
 
-# package manager installations
-for package in ./packages.json
-do
-    "$MANAGER" install package
+# install rest of packages w/ package manager
+package_list=($( jq -r '.'\"$manager\"' | @sh' packages.json | tr -d \'\" ))
+for package in ${package_list[@]}; do
+    if [ ! command -v $package &> /dev/null ]; then
+        "$manager" install $package
+    else
+        echo "$package is already installed"
+    fi
 done
 
 
-# install packer.nvim
+# install nvim plugin manager
 if [ ! -d "~/.local/share/nvim/site/pack/packer/start/packer.nvim" ] 
 then
     git clone --depth 1 https://github.com/wbthomason/packer.nvim\

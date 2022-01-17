@@ -9,11 +9,11 @@ A repository and setup for my dot files on Windows (WSL), MacOS, and Linux distr
 ## Prerequisites
 #### Windows
 1. Make sure to enable Virtualization
-2. In Bios
-3. In Powershell
-4. Install Windows Terminal
-5. Install WSL
-6. Install Ubuntu 20.04 or your preferred OS.
+   1. In Bios
+   2. In Powershell
+2. Install Windows Terminal
+3. Install WSL
+4. Install Ubuntu 20.04 or your preferred OS.
 #### MacOS
 1. Install iterm2
 #### Linux (Ubuntu/Debian)
