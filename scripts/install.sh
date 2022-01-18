@@ -5,19 +5,24 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-manager=$1
-if [ $1 = "apt-get" ]; then
-    LIN_ARCH=$(dpkg --print-architecture)
+if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ]; then
+    echo "You have not run bootstrap.sh at least once"
+    exit 1
 fi
 
-"$manager" update && "$manager" upgrade
+local manager=$1
+if [ $1 = "apt-get" ]; then
+    local lin_arch=$(dpkg --print-architecture)
+fi
+
+$manager update && $manager upgrade
 
 
 # install core packages to run install script (hard-coded)
-core_list=("git" "curl" "jq" "wget")
+local core_list=("git" "curl" "jq" "wget")
 for val in ${core_list[@]}; do
     if [ ! command -v $val &> /dev/null ]; then
-        "$manager" install $val
+        $manager install $val
     else
         echo "$val is already installed"
     fi
@@ -69,7 +74,7 @@ if [ $manager = "apt-get" ]; then
 
     # install delta
     if [ ! command -v delta &> /dev/null ]; then
-        wget -r -l1 --no-parent -P /tmp -A{$LIN_ARCH}.deb https://github.com/dandavison/delta/releases/latest/download/
+        wget -r -l1 --no-parent -P /tmp -A{$lin_arch}.deb https://github.com/dandavison/delta/releases/latest/download/
         dpkg -i /tmp/git-delta*.deb
     else
         echo "delta is already installed"
@@ -86,10 +91,12 @@ fi
 
 
 # install rest of packages w/ package manager
-package_list=($( jq -r '.'\"$manager\"' | @sh' packages.json | tr -d \'\" ))
+local package_list=($( jq -r '.'\"$manager\"' | @sh' packages.json | tr -d \'\" ))
 for package in ${package_list[@]}; do
-    if [ ! command -v $package &> /dev/null ]; then
-        "$manager" install $package
+    if ([ $manager = "apt-get" ] && [ ! (dpkg-query -W -f='${Status}' $package | grep "ok installed") &> /dev/null ]); then
+        $manager -y install $package
+    elif ([ $manager = "brew" ] && [ ! brew list $package &> /dev/null ]); then
+        $manager install $package
     else
         echo "$package is already installed"
     fi
@@ -104,6 +111,6 @@ then
     echo "Packer.nvim has been installed"
 else
     echo "Packer.nvim is already installed"
-fi 
+fi
 
 echo "Success! Essential packages have been installed..."
