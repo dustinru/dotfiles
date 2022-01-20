@@ -24,3 +24,4 @@ alias help=tldr                                 # easier keyword to remember tld
 alias c='clear'                                 # faster clear
 alias dev='cd ~/dev'                            # shortcut to dev folder
 alias zshalias='nvim ~/.zsh/aliases.zsh'        # shortcut to edit aliases
+alias dotfiles='cd $HOME/.dotfiles'

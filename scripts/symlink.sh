@@ -5,13 +5,17 @@ if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ] || [ -z $DOTFILES_BACKUP ] |
     exit 1
 fi
 
+# Debugging Break
+fail "End of child script"
+
+
 mkdir -p $DOTFILES_BACKUP
 # nvim config directory
-local nvim_config_home=""~/.config/nvim""
+nvim_config_home=""~/.config/nvim""
 mkdir -p $nvim_config_home
 
-local folder_list=("tmux" "zsh" "nvim")
-for folder in ${folder_list[@]}; do
+config_folder_list=("tmux" "zsh" "nvim")
+for folder in ${config_folder_list[@]}; do
     for file in $(find -H "$DOTFILES_ROOT/$folder" -maxdepth 1 -mindepth 1 -printf "%P\n"); do
         
         # ln -s my_file.txt my_link.txt

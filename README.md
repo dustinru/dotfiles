@@ -64,6 +64,11 @@ Configure your terminal to use monospace MesloLGS Nerd Font:
        https://raw.githubcontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
      for example.
 ## How to Use
+```
+git clone https://github.com/dustinru/dotfiles.git "$HOME/.dotfiles" && cd "$HOME/.dotfiles"
+chmod +x bootstrap.sh
+./bootstrap.sh
+```
 ## CLI Tools/Plugins List
 #### UNIX (zsh)
 ```

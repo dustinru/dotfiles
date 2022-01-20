@@ -1,58 +1,71 @@
 #!/usr/bin/env bash
 
 if [[ $# -eq 0 ]] ; then
-    echo 'Error: package manager not provided. Exiting script...'
-    exit 1
+    fail 'Error: package manager not provided. Exiting script...'
 fi
 
 if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ]; then
-    echo "You have not run bootstrap.sh at least once"
-    exit 1
+    fail "You have not run bootstrap.sh at least once. Exiting script..."
 fi
 
-local manager=$1
 if [ $1 = "apt-get" ]; then
     local lin_arch=$(dpkg --print-architecture)
+    info "Linux is using the following architecture: $lin_arch"
+    # append -y
+    man_key="$1 -qq -y"
+else
+    man_key=$1
 fi
 
-$manager update && $manager upgrade
+info "Running $1 update and $1 upgrade..."
+$man_key update && $man_key upgrade
+success "Currently installed packages are up to date"
 
-
-# install core packages to run install script (hard-coded)
-local core_list=("git" "curl" "jq" "wget")
+echo ''
+info "Installing core packages..."
+core_list=("git" "curl" "jq" "wget" "zsh")
 for val in ${core_list[@]}; do
-    if [ ! command -v $val &> /dev/null ]; then
-        $manager install $val
+    if [ $val = "zsh" ] && [ ! command -v $val &> /dev/null ]; then
+        $man_key install $val
+        chsh -s $(which zsh)
+        success "$val has been installed"
+    elif [ ! command -v $val &> /dev/null ]; then
+        $man_key install $val
+        success "$val has been installed"
     else
-        echo "$val is already installed"
+        info "$val is already installed"
     fi
 done
 
-
-# Install zsh if missing w/ oh-my-zsh and p10k
-if [ ! command -v zsh &> /dev/null ]; then
-    $manager install zsh
-    chsh -s $(which zsh)
-else
-    echo "zsh is already installed"
-fi
-if [ ! -d "~/.oh-my-zsh" ]; then
+echo ''
+info "Installing oh-my-zsh and oh-my-zsh themes/plugins..."
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-if [ ! -d "~/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-fi
-if [ ! -d "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-fi
-if [ ! -d "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    success "oh-my-zsh has been installed"
+else
+    info "oh-my-zsh is already installed"
 fi
 
+declare -A zsh_list
+themes_list=("powerlevel10k")
+plugins_list=("zsh-syntax-highlighting" "zsh-autosuggestions")
+zsh_list[themes]=themes_list[@]
+zsh_list[plugins]=plugins_list[@]
+for custom_subdir in ${!zsh_list[@]}; do
+    for entry in ${!zsh_list[$custom_subdir]}; do
+        if [ ! -d "$HOME/.oh-my-zsh/custom/$custom_subdir/$entry" ]; then
+            git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/$custom_subdir/$entry
+            success "$custom_subdir/$entry has been installed"
+        else
+            info "$custom_subdir/$entry is already installed"
+        fi
+    done
+done
 
 # Ubuntu-specific installation, if missing
-if [ $manager = "apt-get" ]; then
-    # install neovim
+if [ $1 = "apt-get" ]; then
+    echo ''
+    info "Beginning Ubuntu-specific installations..."
     if [ ! command -v nvim &> /dev/null ]; then
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
         chmod u+x nvim.appimage
@@ -60,57 +73,72 @@ if [ $manager = "apt-get" ]; then
         ./squashfs-root/AppRun --version
         mv squashfs-root /
         ln -s /squashfs-root/AppRun /usr/bin/nvim
+        success "nvim has been installed"
     else
-        echo "nvim is already installed"
+        info "nvim is already installed"
     fi
     
-    # install bat + ripgrep (avoid package error) if either missing
-    if [[ ! command -v bat &> /dev/null ] || [ ! command -v rg &> /dev/null ]]; then
+    if [ ! command -v bat &> /dev/null ] || [ ! command -v rg &> /dev/null ]; then
         apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+        success "bat has been installed"
+        success "ripgrep has been installed"
     else
-        echo "bat is already installed"
-        echo "ripgrep is already installed"
+        info "bat is already installed"
+        info "ripgrep is already installed"
     fi
 
-    # install delta
     if [ ! command -v delta &> /dev/null ]; then
         wget -r -l1 --no-parent -P /tmp -A{$lin_arch}.deb https://github.com/dandavison/delta/releases/latest/download/
         dpkg -i /tmp/git-delta*.deb
+        success "delta has been installed"
     else
-        echo "delta is already installed"
+        info "delta is already installed"
     fi
 
-    # install fzf
     if [ ! command -v fzf &> /dev/null ]; then
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
+        success "fzf has been installed"
     else
-        echo "fzf is already installed"
+        info "fzf is already installed"
     fi
 fi
 
 
-# install rest of packages w/ package manager
-local package_list=($( jq -r '.'\"$manager\"' | @sh' packages.json | tr -d \'\" ))
+echo ''
+info "Installing remaining packages with $1..."
+package_list=($( jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" ))
 for package in ${package_list[@]}; do
-    if ([ $manager = "apt-get" ] && [ ! (dpkg-query -W -f='${Status}' $package | grep "ok installed") &> /dev/null ]); then
-        $manager -y install $package
-    elif ([ $manager = "brew" ] && [ ! brew list $package &> /dev/null ]); then
-        $manager install $package
+    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$package/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $package) )]]; then
+        $man_key install $package
+        success "$package has been installed"
     else
-        echo "$package is already installed"
+        info "$package is already installed"
     fi
 done
 
 
-# install nvim plugin manager
-if [ ! -d "~/.local/share/nvim/site/pack/packer/start/packer.nvim" ] 
+echo ''
+info "Installing node.js packages with npm..."
+npm_list=($( jq -r '.'\"npm\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" ))
+npm list -g --depth=0 >/tmp/tmp_npm_list.txt
+for package in ${npm_list[@]}; do
+    if [[ ! $(cat /tmp/tmp_npm_list.txt | grep $package) ]]; then
+        npm install -g --quiet $package
+        success "$package has been installed"
+    else
+        info "$package is already installed"
+    fi
+done
+
+echo ''
+info "Installing the nvim plugin manager..."
+if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ] 
 then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-    echo "Packer.nvim has been installed"
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    success "Packer.nvim has been installed"
 else
-    echo "Packer.nvim is already installed"
+    info "Packer.nvim is already installed"
 fi
 
-echo "Success! Essential packages have been installed..."
+success "Success! Essential packages have been installed..."
