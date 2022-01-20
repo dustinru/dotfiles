@@ -22,6 +22,7 @@ fail () {
 cd "$(dirname "$0")/."
 DOTFILES_ROOT=$(pwd -P)
 DOTFILES_BACKUP="$HOME/.dotfiles_backup"
+mkdir -p $DOTFILES_BACKUP
 
 info "Syncing config files with the latest from dustinru/dotfiles repo..."
 git pull origin main
@@ -33,6 +34,8 @@ info "Determining OS for script running..."
 # Check OS (Linux (Ubuntu/WSL), or MacOS)
 case "$OSTYPE" in
 linux*) success "Detected system: Linux"
+    lin_arch=$(dpkg --print-architecture)
+    info "Linux is using the following architecture: $lin_arch"
     manager="apt-get"
     ;;
 darwin*) success "Detected system: OS X"

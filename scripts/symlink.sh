@@ -5,13 +5,8 @@ if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ] || [ -z $DOTFILES_BACKUP ] |
     exit 1
 fi
 
-# Debugging Break
-fail "End of child script"
-
-
-mkdir -p $DOTFILES_BACKUP
 # nvim config directory
-nvim_config_home=""~/.config/nvim""
+nvim_config_home="$HOME/.config/nvim"
 mkdir -p $nvim_config_home
 
 config_folder_list=("tmux" "zsh" "nvim")
@@ -20,19 +15,24 @@ for folder in ${config_folder_list[@]}; do
         
         # ln -s my_file.txt my_link.txt
         # ls -l my_link.txt to list link 
-        local parent_folder=$HOME
+        parent_folder=$HOME
         if [ $folder = "nvim" ]; then
             parent_folder=$nvim_config_home
         fi
-        echo "Backing up $file to ~/.dotfiles_backup..."
-        cp -a "$parent_folder/$file" "$DOTFILES_BACKUP/$file"
+        #info "Backing up $file to $HOME/.dotfiles_backup..."
+        #cp -a "$parent_folder/$file" "$DOTFILES_BACKUP/$file"
+        info "backing up $parent_folder/$file to $DOTFILES_BACKUP/$file"
+        info "linking src: $DOTFILES_ROOT/$folder/$file to sym: $parent_folder/$file"
         
-        echo "Backup completed for $file! Creating symlink for $file..."
-        ln -s "$DOTFILES_ROOT/$folder/$file" "$parent_folder/$file"
-        ls -l "$parent_folder/$file"
-        echo "Success! Created symlink for $file"
+        #success "Backup completed for $file! Creating symlink for $file..."
+        #ln -s "$DOTFILES_ROOT/$folder/$file" "$parent_folder/$file"
+        #ls -l "$parent_folder/$file"
+        #success "Success! Created symlink for $file"
     done
 done
+
+# Debugging Break
+fail "End of child script"
 
 # Manual symlink creation for now
 #ln -s "$DOTFILES_ROOT/tmux/.tmux.conf"

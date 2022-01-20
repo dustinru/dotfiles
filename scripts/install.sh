@@ -9,9 +9,6 @@ if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ]; then
 fi
 
 if [ $1 = "apt-get" ]; then
-    local lin_arch=$(dpkg --print-architecture)
-    info "Linux is using the following architecture: $lin_arch"
-    # append -y
     man_key="$1 -qq -y"
 else
     man_key=$1
