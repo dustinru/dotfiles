@@ -20,8 +20,9 @@ fail () {
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 cd "$(dirname "$0")/."
+HOME_DIR=$(dirname "$PWD")
 DOTFILES_ROOT=$(pwd -P)
-DOTFILES_BACKUP="$HOME/.dotfiles_backup"
+DOTFILES_BACKUP="$HOME_DIR/.dotfiles_backup"
 mkdir -p $DOTFILES_BACKUP
 
 info "Syncing config files with the latest from dustinru/dotfiles repo..."
@@ -52,7 +53,5 @@ info "Using $manager as the package manager..."
 . "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
 
 . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
-
-fail "End of parent script"
 
 echo "Setup completed! Make sure to run :PackerCompile and :PackerInstall within Neovim"

@@ -36,7 +36,7 @@ done
 
 echo ''
 info "Installing oh-my-zsh and oh-my-zsh themes/plugins..."
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
+if [ ! -d "$HOME_DIR/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     success "oh-my-zsh has been installed"
 else
@@ -50,8 +50,8 @@ zsh_list[themes]=themes_list[@]
 zsh_list[plugins]=plugins_list[@]
 for custom_subdir in ${!zsh_list[@]}; do
     for entry in ${!zsh_list[$custom_subdir]}; do
-        if [ ! -d "$HOME/.oh-my-zsh/custom/$custom_subdir/$entry" ]; then
-            git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/$custom_subdir/$entry
+        if [ ! -d "$HOME_DIR/.oh-my-zsh/custom/$custom_subdir/$entry" ]; then
+            git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
             success "$custom_subdir/$entry has been installed"
         else
             info "$custom_subdir/$entry is already installed"
@@ -130,9 +130,9 @@ done
 
 echo ''
 info "Installing the nvim plugin manager..."
-if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ] 
+if [ ! -d "$HOME_DIR/.local/share/nvim/site/pack/packer/start/packer.nvim" ] 
 then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME_DIR/.local/share/nvim/site/pack/packer/start/packer.nvim"
     success "Packer.nvim has been installed"
 else
     info "Packer.nvim is already installed"
