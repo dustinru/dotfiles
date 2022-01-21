@@ -19,15 +19,18 @@ for folder in ${config_folder_list[@]}; do
         if [ $folder = "nvim" ]; then
             parent_folder=$nvim_config_home
         fi
+        src_path="$DOTFILES_ROOT/$folder/$file"
+        sym_path="$parent_folder/$file"
         info "Backing up $file to ~/.dotfiles_backup..."
-        cp -a "$parent_folder/$file" "$DOTFILES_BACKUP/$file"
-        success "Backup completed for $file! Creating symlink for $file..."
-        if [ ! -L $parent_folder/$file ] || [ ! "$(readlink -- "$parent_folder/$file")" = "$DOTFILES_ROOT/$folder/$file" ]; then
-            ln -sfn "$DOTFILES_ROOT/$folder/$file" "$parent_folder/$file"
-            ls -l "$parent_folder/$file"
-            success "Success! Created symlink for $file at $parent_folder/$file"
+        #cp -a "$parent_folder/$file" "$DOTFILES_BACKUP/$file"
+        success "Backup completed! Creating symlink for $file..."
+        if [ ! -L $sym_path ] || [ "$(readlink "$sym_path")" != "$src_path" ]; then
+            rm -rf $sym_path
+            ln -sn $src_path $sym_path
+            ls -l $sym_path
+            success "Success! Created symlink for $file at $sym_path"
         else
-            info "Symlink for $file already exists at $parent_folder/$file..."
+            info "Symlink for $file already exists at $sym_path..."
         fi
         echo ''
     done
