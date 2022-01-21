@@ -7,6 +7,7 @@ fi
 
 echo ''
 info "Beginning symlink process..."
+echo ''
 
 # nvim config directory
 nvim_config_home="$HOME_DIR/.config/nvim"
@@ -22,11 +23,11 @@ for folder in ${config_folder_list[@]}; do
         src_path="$DOTFILES_ROOT/$folder/$file"
         sym_path="$parent_folder/$file"
         info "Backing up $file to ~/.dotfiles_backup..."
-        #cp -a "$parent_folder/$file" "$DOTFILES_BACKUP/$file"
+        cp -a $sym_path "$DOTFILES_BACKUP/$file"
         success "Backup completed! Creating symlink for $file..."
         if [ ! -L $sym_path ] || [ "$(readlink "$sym_path")" != "$src_path" ]; then
-            rm -rf $sym_path
-            ln -sn $src_path $sym_path
+            #rm -rf $sym_path
+            ln -sfn $src_path $sym_path
             ls -l $sym_path
             success "Success! Created symlink for $file at $sym_path"
         else
