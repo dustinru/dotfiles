@@ -92,6 +92,11 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 for config (~/.zsh/*.zsh) source $config
 
+# Start up tmux automatically and attach to session, if one exists
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+	exec tmux new-session -A -s main
+fi
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
