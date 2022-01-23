@@ -38,6 +38,10 @@ chmod +x bootstrap.sh
 ### tmux
 ## References
 * [Adding an SSH Key to Github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent)
-* [Holman's Dotfiles](https://github.com/holman/dotfiles)
 * [How to setup WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 * [Prefixless tmux keymappings](https://zserge.com/posts/tmux/)
+* Other Dotfile Projects
+  * [Eric's Dotfiles](https://github.com/ericlovesmath/dotfiles)
+  * [Holman's Dotfiles](https://github.com/holman/dotfiles)
+  * [Mathias's Dotfiles](https://github.com/mathiasbynens/dotfiles)
+  * [Zenbro's Dotfiles](https://github.com/zenbro/dotfiles)

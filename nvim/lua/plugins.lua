@@ -56,7 +56,7 @@ return require('packer').startup({
       requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
     use 'mhinz/vim-signify'
-    --use 'camspiers/snap'
+    use { 'junegunn/fzf', run = './install --bin', }
     use { 'ibhagwan/fzf-lua',
       requires = { 'kyazdani42/nvim-web-devicons' }
     }
