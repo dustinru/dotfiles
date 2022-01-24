@@ -85,6 +85,7 @@ plugins=(
 	copyfile
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -126,6 +127,7 @@ fi
 # neofetch
 
 # fzf startup for github installation
+export FZF_BASE="$HOME/.fzf"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Source autojump (for Ubuntu)
