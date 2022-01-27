@@ -76,9 +76,10 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ['<C-e>'] = cmp.mapping({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
@@ -110,7 +111,7 @@ cmp.setup.cmdline(':', {
 })
 -- Setup lspconfig.
 local servers_lsp = {'pyright','rust_analyzer','tsserver','eslint'}
-for _, lsp in ipairs(servers_lsp) do
+for _, lsp in pairs(servers_lsp) do
   nvim_lsp[lsp].setup {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -119,12 +120,12 @@ for _, lsp in ipairs(servers_lsp) do
     }
   }
 end
+-- Autopairs
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local Rule = require('nvim-autopairs.rule')
 local npairs = require('nvim-autopairs')
 local ts_conds = require('nvim-autopairs.ts-conds')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
--- Autopairs
 npairs.setup({
     enable_check_bracket_line = false,
     -- Treesitter checking

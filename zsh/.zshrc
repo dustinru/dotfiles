@@ -130,6 +130,12 @@ fi
 export FZF_BASE="$HOME/.fzf"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# set rg as default grep for fzf
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  #export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
 # Source autojump (for Ubuntu)
 if [ -f /usr/share/autojump/autojump.zsh ]; then
   source /usr/share/autojump/autojump.zsh

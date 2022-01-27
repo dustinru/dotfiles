@@ -23,7 +23,10 @@
 	],
 	"npm":[
 		"tldr",
-		"markserv"
+		"markserv",
+		"typescript",
+		"typescript-language-server",
+		"vscode-langservers-extracted"
 	],
 	"cargo":[
 	]

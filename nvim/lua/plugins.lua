@@ -34,8 +34,15 @@ return require('packer').startup({
     use "nathom/filetype.nvim"
     use 'lewis6991/impatient.nvim'
     use 'dstein64/vim-startuptime'
+    -- QoL fixes/additions
+    use 'wellle/targets.vim'
+    use 'tpope/vim-surround'
+    use 'tpope/vim-repeat'
+    use 'tpope/vim-commentary'
+    use 'ggandor/lightspeed.nvim'
     -- Syntax highlighting, language servers, and autocompletion
     use 'neovim/nvim-lspconfig'
+    use 'williamboman/nvim-lsp-installer'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
@@ -49,19 +56,32 @@ return require('packer').startup({
     }
     use 'ntpeters/vim-better-whitespace'
     use "lukas-reineke/indent-blankline.nvim"
-    use 'ap/vim-css-color'
+    use 'norcalli/nvim-colorizer.lua'
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
     -- UI Additions
     use {
       'nvim-lualine/lualine.nvim',
       requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
     use 'mhinz/vim-signify'
-    --use { 'junegunn/fzf', run = './install --bin', }
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+          'kyazdani42/nvim-web-devicons', -- optional, for file icon
+        },
+        config = function() require'nvim-tree'.setup {} end
+    }
     use { 'ibhagwan/fzf-lua',
       requires = { 'kyazdani42/nvim-web-devicons' }
     }
     use 'ray-x/lsp_signature.nvim'
-    -- Popup keybindings
+    use {'kevinhwang91/nvim-bqf'}
+    -- Miscellaneous UI
     use {
       "folke/which-key.nvim",
       config = function()
@@ -70,6 +90,7 @@ return require('packer').startup({
         }
       end
     }
+    use {"akinsho/toggleterm.nvim"}
     -- Language-specific 
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
@@ -81,12 +102,6 @@ return require('packer').startup({
     -- Formatting
     use 'windwp/nvim-autopairs'
     use {'prettier/vim-prettier', run = 'yarn install' }
-    -- QoL fixes/additions
-    use 'wellle/targets.vim'
-    use 'tpope/vim-surround'
-    use 'tpope/vim-repeat'
-    use 'tpope/vim-commentary'
-    use 'ggandor/lightspeed.nvim'
     -- Appearance
     use 'sainnhe/gruvbox-material'
     use 'kyazdani42/nvim-web-devicons'

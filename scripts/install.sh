@@ -75,7 +75,7 @@ if [ $1 = "apt-get" ]; then
         info "nvim is already installed"
     fi
     
-    if [ ! -x $(command -v batcat) ] || [ ! -x $(command -v rg) ]; then
+    if [ ! -x $(command -v bat) ] || [ ! -x $(command -v rg) ]; then
         apt -y install -o Dpkg::Options::="--force-overwrite" bat ripgrep
         success "bat has been installed"
         success "ripgrep has been installed"

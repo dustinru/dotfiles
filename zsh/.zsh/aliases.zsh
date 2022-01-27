@@ -24,8 +24,9 @@ alias ffs='sudo !!'                             # run previous command with sudo
 # [Typos]
 alias gerp=grep                                 # avoid grep typos
 alias ipconfig=ifconfig                         # alias for ifconfig to avoid error
-alias bat=batcat                                # alias for bat on Ubuntu
 alias help=tldr                                 # easier keyword to remember tldr
+command -v bat > /dev/null || alias bat=batcat  # alias for bat on Ubuntu/Debian
+command -v fd > /dev/null || alias fd=fdfind    # alias for fd on Ubuntu/Debian
 
 # [Debugging]
 alias ports='ss -tulanp'                        # view port status
