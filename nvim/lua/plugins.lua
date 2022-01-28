@@ -63,6 +63,7 @@ return require('packer').startup({
             require('Comment').setup()
         end
     }
+    use "rafamadriz/friendly-snippets"
     -- UI Additions
     use {
       'nvim-lualine/lualine.nvim',

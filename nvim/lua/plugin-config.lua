@@ -1,3 +1,6 @@
+
+-- Enable impatient.nvim
+require('impatient')
 -- Lualine
 local lualine = require('lualine')
 lualine.setup {
@@ -65,7 +68,7 @@ treesitter.setup {
       -- termcolors = {} -- table of colour name strings
     }
 }
--- CMP - autocompletion
+-- CMP + vsnip + lspconfig
 local nvim_lsp = require('lspconfig')
 local cmp = require('cmp')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -76,7 +79,7 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
@@ -111,13 +114,13 @@ cmp.setup.cmdline(':', {
 })
 -- Setup lspconfig.
 local servers_lsp = {'pyright','rust_analyzer','tsserver','eslint'}
-for _, lsp in pairs(servers_lsp) do
+for _, lsp in ipairs(servers_lsp) do
   nvim_lsp[lsp].setup {
     capabilities = capabilities,
-    on_attach = on_attach,
+    --[[on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
-    }
+    }]]--
   }
 end
 -- Autopairs
@@ -136,6 +139,7 @@ npairs.setup({
         java = false,-- don't check treesitter on java
     }
 })
+-- press % => %% only while inside a comment or string
 npairs.add_rules({
   Rule("%", "%", "lua")
     :with_pair(ts_conds.is_ts_node({'string','comment'})),
@@ -143,16 +147,8 @@ npairs.add_rules({
     :with_pair(ts_conds.is_not_ts_node({'function'}))
 })
 cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
---[[ Snap
-local snap = require'snap'
-snap.maps {
-  {"<Leader><Leader>", snap.config.file {producer = "ripgrep.file"}},
-  {"<Leader>fb", snap.config.file {producer = "vim.buffer"}},
-  {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}},
-  {"<Leader>ff", snap.config.vimgrep {}},
-}]]
 -- lsp signature w/ full default config
-cfg = {
+require'lsp_signature'.setup {
   debug = false, -- set to true to enable debug logging
   log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
   -- default is  ~/.cache/nvim/lsp_signature.log
@@ -197,7 +193,6 @@ cfg = {
   timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
   toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
 }
-require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
 require'nvim-web-devicons'.setup {
   -- your personnal icons can go here (to override)
   -- you can specify color or cterm_color instead of specifying both of them
