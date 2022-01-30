@@ -26,7 +26,7 @@ DOTFILES_BACKUP="$HOME_DIR/.dotfiles_backup"
 mkdir -p $DOTFILES_BACKUP
 
 info "Syncing config files with the latest from dustinru/dotfiles repo..."
-if [ $(git fetch --dry-run) -ne 0 ]; then
+if [ ! -z $(git fetch --dry-run) ]; then
     git pull origin main
 fi
 success "Files are up to date"
