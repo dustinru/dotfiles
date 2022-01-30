@@ -22,11 +22,7 @@ echo ''
 info "Installing core packages..."
 core_list=("git" "curl" "jq" "wget" "zsh")
 for val in ${core_list[@]}; do
-    if [ $val = "zsh" ] && [ ! -x $(command -v $val) ]; then
-        $man_key install $val
-        chsh -s $(which zsh)
-        success "$val has been installed"
-    elif [ ! -x $(command -v $val) ]; then
+    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$val/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $val) )]]; then
         $man_key install $val
         success "$val has been installed"
     else
@@ -35,9 +31,11 @@ for val in ${core_list[@]}; do
 done
 
 echo ''
+ZSH="$HOME_DIR/.oh-my-zsh"
 info "Installing oh-my-zsh and oh-my-zsh themes/plugins..."
-if [ ! -d "$HOME_DIR/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+if [ ! -f "$HOME_DIR/.oh-my-zsh/oh-my-zsh.sh" ]; then
+    wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O /tmp/install.sh 
+    . /tmp/install.sh --unattended
     success "oh-my-zsh has been installed"
 else
     info "oh-my-zsh is already installed"
@@ -51,14 +49,17 @@ zsh_list[plugins]=plugins_list[@]
 for custom_subdir in ${!zsh_list[@]}; do
     for entry in ${!zsh_list[$custom_subdir]}; do
         if [ ! -d "$HOME_DIR/.oh-my-zsh/custom/$custom_subdir/$entry" ]; then
-            git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
+            if [ $entry = "zsh-autosuggestions" ]; then
+                sudo git clone --depth=1 https://github.com/romkatv/$entry ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
+            else
+                git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
+            fi
             success "$custom_subdir/$entry has been installed"
         else
             info "$custom_subdir/$entry is already installed"
         fi
     done
 done
-
 # Ubuntu-specific installation, if missing
 if [ $1 = "apt-get" ]; then
     echo ''

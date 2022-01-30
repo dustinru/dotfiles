@@ -56,4 +56,4 @@ info "Using $manager as the package manager..."
 
 . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
 
-echo "Setup completed! Make sure to run :PackerCompile and :PackerInstall within Neovim"
+echo "Setup completed! Make sure to switch the shell to zsh [chsh -s \$(which zsh)] run :PackerCompile and :PackerInstall within Neovim"
