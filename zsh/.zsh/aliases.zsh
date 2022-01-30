@@ -15,7 +15,6 @@ alias lh='ls -d .*'                             # show hidden files
 alias grep='grep --color=auto -i'               # colorize grep output
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias vim=nvim                                  # set nvim as default vim
 alias vi=vim                                    # set nvim as default vi
 alias c='clear'                                 # faster clear
 alias y='yarn'
