@@ -8,21 +8,28 @@ if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ]; then
     fail "You have not run bootstrap.sh at least once. Exiting script..."
 fi
 
-if [ $1 = "apt-get" ]; then
-    man_key="$1 -qq -y"
-else
-    man_key=$1
-fi
+# Adding manager arguments and running update/upgrade
+info "Running equivalent update and upgrade commands with $1..."
+case "$1" in
+pacman)     man_key="$1 -S"
+    pacman -Syu
+    ;;
+apt-get)    man_key="$1 -qq -y"
+    $man_key update && $man_key upgrade
+    ;;
+*)          man_key=$1
+    $man_key update && $man_key upgrade
+    ;;
+esac
+exit 1 #debug
 
-info "Running $1 update and $1 upgrade..."
-$man_key update && $man_key upgrade
 success "Currently installed packages are up to date"
 
 echo ''
 info "Installing core packages..."
 core_list=("git" "curl" "jq" "wget" "zsh")
 for val in ${core_list[@]}; do
-    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$val/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $val) )]]; then
+    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$val/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $val > /dev/null) ) || ( $1 = "pacman" && ! $($1 -Qi $val > /dev/null) )]]; then
         $man_key install $val
         success "$val has been installed"
     else
@@ -60,6 +67,7 @@ for custom_subdir in ${!zsh_list[@]}; do
         fi
     done
 done
+
 # Ubuntu-specific installation, if missing
 if [ $1 = "apt-get" ]; then
     echo ''
@@ -107,7 +115,7 @@ echo ''
 info "Installing remaining packages with $1..."
 package_list=($( jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" ))
 for package in ${package_list[@]}; do
-    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$package/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $package) )]]; then
+    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$package/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $package) ) || ( $1 = "pacman" && ! $($1 -Qi $val > /dev/null) )]]; then
         $man_key install $package
         success "$package has been installed"
     else

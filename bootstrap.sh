@@ -34,26 +34,32 @@ success "Files are up to date"
 echo ''
 
 info "Determining OS for script running..."
-# Check OS (Linux (Ubuntu/WSL), or MacOS)
-case "$OSTYPE" in
-linux*) success "Detected system: Linux"
-    lin_arch=$(dpkg --print-architecture)
-    info "Linux is using the following architecture: $lin_arch"
-    manager="apt-get"
-    ;;
-darwin*) success "Detected system: OS X"
+# Check OS (Linux (Ubuntu/WSL/Arch), or MacOS)
+if [[ $OSTYPE == "linux"* ]]; then
+    success "Detected system: Linux"
+    
+    unameR="$(uname -r)"
+    case "$unameR" in
+    *arch*)                 manager="pacman";;
+    *ubuntu*|*microsoft*)   manager="apt-get"
+        lin_arch=$(dpkg --print-architecture)
+        info "Linux is using the following architecture: $lin_arch"
+        ;;
+    *)  fail "Unsupported Linux distro. Exiting script...";;
+    esac
+elif [[ $OSTYPE == "brew"* ]]; then
+    success "Detected system: OS X"
     manager="brew"
-    ;;
-msys*) fail "Unsupported system: Windows(DOS). Exiting script..."
-    ;;
-*) fail "Unsupported system. Exiting script..."
-    ;;
-esac
-info "Using $manager as the package manager..."
+elif [[ $OSTYPE == "msys"* ]]; then
+    fail "Unsupported system: Windows(DOS). Exiting script..."
+else
+    fail "Unsupported system. Exiting script..."
+fi
+info "Using the $manager package manager..."
 
 # Sourcing files to maintain chmod -x permissions and variables
 . "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
 
 . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
 
-echo "Setup completed! Make sure to switch the shell to zsh [chsh -s \$(which zsh)] run :PackerCompile and :PackerInstall within Neovim"
+echo "Setup completed! Make sure to switch the shell to zsh, reopen the terminal, and run :PackerCompile/:PackerInstall within Neovim"

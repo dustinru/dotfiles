@@ -21,12 +21,33 @@
 		"fzf",
 		"neofetch"
 	],
+	"pacman":[
+		"p7zip", "zip", "unzip", "unrar",
+		"pulseaudio", "pulseaudio-alsa", "pavucontrol", "alsa-plugins", "alsa-utils",
+		"vim", "neovim", "micro", "python", "python-pip", "go", "rust", "nodejs",
+		"nitrogen", "i3lock",
+		"adobe-source-code-pro-fonts", "noto-fonts",
+		"firefox", "chromium", "vlc", "obs-studio", "flowblade", "gimp", "transmission-qt", "pcmanfm", "mupdf", "geeqie", "zathura", "zathura-pdf-mupdf",
+		"linux-headers", "sdl2", "sdl2_net", "sdl2_image", "sdl2_mixer", "sdl2_ttf",
+		"ranger", "bind-tools", "feh", "tk", "w3m", "pdftk", "boost", "qt5-xmlpatterns", "fortune-mod",
+		"net-tools", "tcpdump", "tcpreplay", "traceroute", "nmap", "wireshark-qt", "remmina",
+		"ghidra", "radare2", "radare2-cutter", "r2ghidra-dec", "binwalk",
+		"kitty", "xonsh", "zsh", "tmux",
+		"fd", "ripgrep", "bat", "autojump", "the_silver_searcher", "fzf", "git-delta", "neofetch",
+		"htop", "tree", "scrot", "acpi", "cloc", "whois", "speedtest-cli", "ntp", "strace", "streamlink", "croc", "keepassxc",
+		"dialog", "wpa_supplicant", "aircrack-ng", "networkmanager",
+		"bspwm", "sxhkd", "rofi",
+		"xorg-server", "xorg-xinit", "xorg-xrandr", "xf86-input-libinput", "xf86-video-intel"
+	],
 	"npm":[
 		"tldr",
 		"markserv",
 		"typescript",
 		"typescript-language-server",
 		"vscode-langservers-extracted"
+	],
+	"yay":[
+		"polybar"
 	],
 	"cargo":[
 	]
