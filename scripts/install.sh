@@ -5,15 +5,15 @@ packageExists() {
     # return 0 (true) if exists
     case "$1" in
     pacman)
-        if [ $($1 -Qi $2) ]; then
+        if $1 -Qi $2 >/dev/null; then
             return 0
         fi;;
     apt-get)
-        if [ $(dpkg -l | awk "/$2/ {print }"|wc -l) -ge 1 ]; then
+        if dpkg -l $2 >/dev/null; then
             return 0
         fi;;
     brew)
-        if [ $($1 ls --versions $2 > /dev/null) ]; then
+        if $1 ls --versions $2 > /dev/null; then
             return 0
         fi;;
     esac

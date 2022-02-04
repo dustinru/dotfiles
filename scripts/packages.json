@@ -6,7 +6,8 @@
 		"tmux",
 		"silversearcher-ag",
 		"neofetch",
-		"net-tools"
+		"net-tools",
+		"tree"
 	],
 	"brew":[
 		"node",
@@ -19,7 +20,8 @@
 		"autojump",
 		"the_silver_searcher",
 		"fzf",
-		"neofetch"
+		"neofetch",
+		"tree"
 	],
 	"pacman":[
 		"p7zip", "zip", "unzip", "unrar",
