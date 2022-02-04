@@ -17,7 +17,7 @@ fail () {
 }
 
 # Run as sudo due to installs/upgrades
-[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+[ "$OSTYPE" != "darwin"* ] || [ "$EUID" -neq 0 ] || fail "Please run with root privileges. Exiting script..."
 
 cd "$(dirname "$0")/."
 HOME_DIR=$(dirname "$PWD")
@@ -47,7 +47,7 @@ if [[ $OSTYPE == "linux"* ]]; then
         ;;
     *)  fail "Unsupported Linux distro. Exiting script...";;
     esac
-elif [[ $OSTYPE == "brew"* ]]; then
+elif [[ $OSTYPE == "darwin"* ]]; then
     success "Detected system: OS X"
     manager="brew"
 elif [[ $OSTYPE == "msys"* ]]; then

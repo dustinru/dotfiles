@@ -13,7 +13,7 @@ packageExists() {
             return 0
         fi;;
     brew)
-        if $1 ls --versions $2 > /dev/null; then
+        if $1 list $2 &> /dev/null; then
             return 0
         fi;;
     esac
@@ -62,7 +62,7 @@ for val in ${core_list[@]}; do
     fi
 done
 
-# oh-my-zsh and themes/plugins
+# oh-my-zsh w/ themes/plugins
 echo ''
 ZSH="$HOME_DIR/.oh-my-zsh"
 info "Installing oh-my-zsh and oh-my-zsh themes/plugins..."
@@ -73,26 +73,19 @@ if [ ! -f "$HOME_DIR/.oh-my-zsh/oh-my-zsh.sh" ]; then
 else
     info "oh-my-zsh is already installed"
 fi
+if ! [ -d $HOME_DIR/.oh-my-zsh/custom/themes/powerlevel10k ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    success "themes/powerlevel10k has been installed"
+fi
+if ! [ -d $HOME_DIR/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    success "plugins/zsh-syntax-highlighting has been installed"
+fi
+if ! [ -d $HOME_DIR/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    success "plugins/zsh-autosuggestions has been installed"
+fi
 
-declare -A zsh_list
-themes_list=("powerlevel10k")
-plugins_list=("zsh-syntax-highlighting" "zsh-autosuggestions")
-zsh_list[themes]=themes_list[@]
-zsh_list[plugins]=plugins_list[@]
-for custom_subdir in ${!zsh_list[@]}; do
-    for entry in ${!zsh_list[$custom_subdir]}; do
-        if [ ! -d "$HOME_DIR/.oh-my-zsh/custom/$custom_subdir/$entry" ]; then
-            if [ $entry = "zsh-autosuggestions" ]; then
-                sudo git clone --depth=1 https://github.com/romkatv/$entry ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
-            else
-                git clone --depth=1 https://github.com/romkatv/$entry.git ${ZSH_CUSTOM:-$HOME_DIR/.oh-my-zsh/custom}/$custom_subdir/$entry
-            fi
-            success "$custom_subdir/$entry has been installed"
-        else
-            info "$custom_subdir/$entry is already installed"
-        fi
-    done
-done
 
 # general package installations
 echo ''

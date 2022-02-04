@@ -45,11 +45,15 @@ alias dotfiles='cd ~/.dotfiles'                 # shortcut to dotfile directory
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 
-# [Alternative Commands]
+# [Alternative Commands for MacOS]
 # use `md5` as a fallback for macOS
 command -v md5sum > /dev/null || alias md5sum="md5"
 # use `shasum` as a fallback for macOS
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
+# use findutils find for macOS
+command -v gfind > /dev/null && alias find="gfind"
+# use gnu ls
+[[ $OSTYPE=="darwin"* ]] && alias ls="/usr/local/opt/coreutils/libexec/gnubin/ls"
 
 
 # [Functions]

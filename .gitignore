@@ -15,3 +15,6 @@ zsh_history
 .bash_history
 .bash_local
 .bash_logout
+
+# log files
+.*log

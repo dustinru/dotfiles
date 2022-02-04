@@ -1,3 +1,8 @@
+# Start up tmux automatically and attach to session, if one exists
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+	exec tmux new-session -A -s main
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -93,10 +98,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 for config (~/.zsh/*.zsh) source $config
 
-# Start up tmux automatically and attach to session, if one exists
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-	exec tmux new-session -A -s main
-fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

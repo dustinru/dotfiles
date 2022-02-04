@@ -5,6 +5,10 @@ if [ -z $DOTFILES_ROOT ] || [ ! -d $DOTFILES_ROOT ] || [ -z $DOTFILES_BACKUP ] |
     exit 1
 fi
 
+# Use GNU find for printf option
+command -v gfind > /dev/null && alias find="gfind"
+which find
+
 echo ''
 info "Beginning symlink process..."
 echo ''
@@ -14,7 +18,7 @@ mkdir -p $nvim_config_home
 
 config_folder_list=("tmux" "zsh" "nvim")
 for folder in ${config_folder_list[@]}; do
-    for file in $(find -H "$DOTFILES_ROOT/$folder" -maxdepth 1 -mindepth 1 -printf "%P\n"); do
+    for file in $(find -H "$DOTFILES_ROOT/$folder" -maxdepth 1 -mindepth 1 | sed 's#.*/##'); do
         parent_folder=$HOME_DIR
         if [ $folder = "nvim" ]; then
             parent_folder=$nvim_config_home

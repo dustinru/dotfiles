@@ -10,6 +10,15 @@
 		"tree"
 	],
 	"brew":[
+		"findutils",
+		"coreutils",
+		"gnu-tar",
+		"gnu-sed",
+		"gawk",
+		"gnutls",
+		"gnu-indent",
+		"gnu-getopt",
+		"grep".
 		"node",
 		"git-delta",
 		"neovim",
