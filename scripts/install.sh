@@ -1,5 +1,31 @@
 #!/usr/bin/env bash
 
+packageExists() {
+    # $1 is manager, $2 is package
+    # return 0 (true) if exists
+    case "$1" in
+    pacman)
+        if [ $($1 -Qi $2) ]; then
+            return 0
+        fi;;
+    apt-get)
+        if [ $(dpkg -l | awk "/$2/ {print }"|wc -l) -ge 1 ]; then
+            return 0
+        fi;;
+    brew)
+        if [ $($1 ls --versions $2 > /dev/null) ]; then
+            return 0
+        fi;;
+    esac
+    return 1
+}
+
+extractPackageList() {
+    local packageList=$( jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" )
+    echo $packageList
+}
+
+
 if [[ $# -eq 0 ]] ; then
     fail 'Error: package manager not provided. Exiting script...'
 fi
@@ -11,7 +37,7 @@ fi
 # Adding manager arguments and running update/upgrade
 info "Running equivalent update and upgrade commands with $1..."
 case "$1" in
-pacman)     man_key="$1 -S"
+pacman)     man_key="$1 -S --needed --noconfirm"
     pacman -Syu
     ;;
 apt-get)    man_key="$1 -qq -y"
@@ -21,7 +47,6 @@ apt-get)    man_key="$1 -qq -y"
     $man_key update && $man_key upgrade
     ;;
 esac
-exit 1 #debug
 
 success "Currently installed packages are up to date"
 
@@ -29,7 +54,7 @@ echo ''
 info "Installing core packages..."
 core_list=("git" "curl" "jq" "wget" "zsh")
 for val in ${core_list[@]}; do
-    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$val/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $val > /dev/null) ) || ( $1 = "pacman" && ! $($1 -Qi $val > /dev/null) )]]; then
+    if ! $(packageExists $1 $val); then
         $man_key install $val
         success "$val has been installed"
     else
@@ -37,6 +62,7 @@ for val in ${core_list[@]}; do
     fi
 done
 
+# oh-my-zsh and themes/plugins
 echo ''
 ZSH="$HOME_DIR/.oh-my-zsh"
 info "Installing oh-my-zsh and oh-my-zsh themes/plugins..."
@@ -68,54 +94,12 @@ for custom_subdir in ${!zsh_list[@]}; do
     done
 done
 
-# Ubuntu-specific installation, if missing
-if [ $1 = "apt-get" ]; then
-    echo ''
-    info "Beginning Ubuntu-specific installations..."
-    if [ ! -x "$(command -v nvim)" ]; then
-        wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O /tmp/nvim.appimage
-        chmod u+x /tmp/nvim.appimage
-        /tmp/nvim.appimage --appimage-extract
-        /tmp/squashfs-root/AppRun --version
-        mv /tmp/squashfs-root /
-        ln -s /squashfs-root/AppRun /usr/bin/nvim
-        success "nvim has been installed"
-    else
-        info "nvim is already installed"
-    fi
-    
-    if [ ! -x "$(command -v batcat)" ] || [ ! -x "$(command -v rg)" ]; then
-        apt -y install -o Dpkg::Options::="--force-overwrite" bat ripgrep
-        success "bat has been installed"
-        success "ripgrep has been installed"
-    else
-        info "bat is already installed"
-        info "ripgrep is already installed"
-    fi
-
-    if [ ! -x "$(command -v delta)" ]; then
-        delta_url=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -i "$lin_arch.deb" | grep -v musl)
-        wget -P /tmp $delta_url
-        dpkg -i /tmp/git-delta*.deb
-        success "delta has been installed"
-    else
-        info "delta is already installed"
-    fi
-
-    if [ ! -d "$HOME_DIR/.fzf" ]; then
-        git clone --depth 1 https://github.com/junegunn/fzf.git $HOME_DIR/.fzf
-        $HOME_DIR/.fzf/install
-        success "fzf has been installed"
-    else
-        info "fzf is already installed"
-    fi
-fi
-
+# general package installations
 echo ''
 info "Installing remaining packages with $1..."
-package_list=($( jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" ))
+package_list=$(extractPackageList $1)
 for package in ${package_list[@]}; do
-    if [[( $1 = "apt-get" && ! $(dpkg -l | awk "/$package/ {print }"|wc -l) -ge 1 ) || ( $1 = "brew" && ! $($1 ls --versions $package) ) || ( $1 = "pacman" && ! $($1 -Qi $val > /dev/null) )]]; then
+    if ! $(packageExists $1 $package); then
         $man_key install $package
         success "$package has been installed"
     else
@@ -123,12 +107,23 @@ for package in ${package_list[@]}; do
     fi
 done
 
+# distro-specific installations
+echo ''
+case "$1" in
+pacman)     info "Beginning Arch-specific installations..."
+    . "$DOTFILES_ROOT/scripts/distro-specific/arch_install.sh"
+    ;;
+apt-get)    info "Beginning Ubuntu-specific installations..."
+    . "$DOTFILES_ROOT/scripts/distro-specific/ubuntu_install.sh"
+    ;;
+esac
 
+# Node.js package installation
 echo ''
 info "Installing node.js packages with npm..."
-npm_list=($( jq -r '.'\"npm\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" ))
+package_list=$(extractPackageList "npm")
 npm list -g --depth=0 >/tmp/tmp_npm_list.txt
-for package in ${npm_list[@]}; do
+for package in ${package_list[@]}; do
     if [[ ! $(cat /tmp/tmp_npm_list.txt | grep $package) ]]; then
         npm install -g --quiet $package
         success "$package has been installed"
@@ -147,4 +142,5 @@ else
     info "Packer.nvim is already installed"
 fi
 
+echo ''
 success "Success! Essential packages have been installed..."

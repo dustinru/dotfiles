@@ -9,9 +9,9 @@ local fn = vim.fn    -- access vim functions
 local cmd = vim.cmd  -- vim commands
 local api = vim.api  -- access vim api
 
-local M = {}
+local helpers = {}
 
-function M.map(mode, lhs, rhs, opts)
+function helpers.map(mode, lhs, rhs, opts)
     local options = { noremap = true }
     if opts then
         options = vim.tbl_extend("force", options, opts)
@@ -19,4 +19,4 @@ function M.map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-return M
+return helpers

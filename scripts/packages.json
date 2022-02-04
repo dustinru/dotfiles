@@ -47,7 +47,10 @@
 		"vscode-langservers-extracted"
 	],
 	"yay":[
-		"polybar"
+		"polybar",
+		"nerd-fonts-source-code-pro", "ttf-font-awesome-4",
+		"vscodium-bin", "discord", "spotify", "aseprite",
+		"cava", "s-tui", "android-apktool", "charles", "ida-free"
 	],
 	"cargo":[
 	]
