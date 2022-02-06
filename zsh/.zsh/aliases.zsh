@@ -57,10 +57,10 @@ command -v gfind > /dev/null && alias find="gfind"
 
 
 # [Functions]
-# cheatsheets stored at ~/.dotfiles/custom
 cs() {
+    local cheatsheet_home="$HOME/.dotfiles/custom/cheatsheets"
     list_cheatsheets() {
-        for file in $(find -H "$HOME/.dotfiles/custom" -maxdepth 1 -mindepth 1 -type f -printf "%P\n"); do
+        for file in $(find -H $cheatsheet_home -maxdepth 1 -mindepth 1 | sed 's#.*/##'); do
             echo "> ${${file%.*}#cs-}"
         done
     }
@@ -76,9 +76,9 @@ cs() {
         echo "\$2 - (optional), grep for specific keymap"
     else
         if [ $# -eq 1 ] && [ -f "$HOME/.dotfiles/custom/cs-$1.txt" ]; then
-            cat "$HOME/.dotfiles/custom/cs-$1.txt"
+            cat "$cheatsheet_home/cs-$1.txt"
         elif [ $# -eq 2 ] && [ -f "$HOME/.dotfiles/custom/cs-$1.txt" ]; then
-            cat $HOME/.dotfiles/custom/cs-$1.txt | grep $2
+            cat "$cheatsheet_home/cs-$1.txt" | grep $2
         else
             echo "Invalid cheatsheet. Please choose from the following:"
             list_cheatsheets
