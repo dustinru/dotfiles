@@ -52,8 +52,7 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # use findutils find for macOS
 command -v gfind > /dev/null && alias find="gfind"
-# use gnu ls
-[[ $OSTYPE=="darwin"* ]] && alias ls="/usr/local/opt/coreutils/libexec/gnubin/ls"
+ls --color=auto > /dev/null || alias ls="/usr/local/opt/coreutils/libexec/gnubin/ls --color=auto"
 
 
 # [Functions]
