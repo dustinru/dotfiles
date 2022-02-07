@@ -52,7 +52,8 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # use findutils find for macOS
 command -v gfind > /dev/null && alias find="gfind"
-ls --color=auto > /dev/null || alias ls="/usr/local/opt/coreutils/libexec/gnubin/ls --color=auto"
+# use gnu ls for macOS
+ls --color=auto &> /dev/null || alias ls="/usr/local/opt/coreutils/libexec/gnubin/ls --color=auto"
 
 
 # [Functions]
@@ -74,9 +75,9 @@ cs() {
         echo "\$1 - cheatsheet name, i.e. tmux"
         echo "\$2 - (optional), grep for specific keymap"
     else
-        if [ $# -eq 1 ] && [ -f "$HOME/.dotfiles/custom/cs-$1.txt" ]; then
+        if [ $# -eq 1 ] && [ -f "$cheatsheet_home/cs-$1.txt" ]; then
             cat "$cheatsheet_home/cs-$1.txt"
-        elif [ $# -eq 2 ] && [ -f "$HOME/.dotfiles/custom/cs-$1.txt" ]; then
+        elif [ $# -eq 2 ] && [ -f "$cheatsheet_home/cs-$1.txt" ]; then
             cat "$cheatsheet_home/cs-$1.txt" | grep $2
         else
             echo "Invalid cheatsheet. Please choose from the following:"
