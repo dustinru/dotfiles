@@ -3,17 +3,19 @@
 packageExists() {
     # $1 is manager, $2 is package
     # return 0 (true) if exists
-    case "$1" in
+    local arg1=$1
+    local arg2=$2
+    case "$arg1" in
     pacman)
-        if $1 -Qi $2 >/dev/null; then
+        if $arg1 -Qi $arg2 >/dev/null; then
             return 0
         fi;;
     apt-get)
-        if dpkg -l $2 >/dev/null; then
+        if dpkg -l $arg2 >/dev/null; then
             return 0
         fi;;
     brew)
-        if $1 list $2 &> /dev/null; then
+        if $arg1 list $arg2 &> /dev/null; then
             return 0
         fi;;
     esac
@@ -21,10 +23,9 @@ packageExists() {
 }
 
 extractPackageList() {
-    local packageList=$( jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\" )
-    echo $packageList
+    local arg1=$1
+    echo $(jq -r '.'\"$1\"' | @sh' "$DOTFILES_ROOT/scripts/packages.json" | tr -d \'\")
 }
-
 
 if [[ $# -eq 0 ]] ; then
     fail 'Error: package manager not provided. Exiting script...'
@@ -115,15 +116,17 @@ esac
 echo ''
 info "Installing node.js packages with npm..."
 package_list=$(extractPackageList "npm")
-npm list -g --depth=0 >/tmp/tmp_npm_list.txt
+tmpList=$(mktemp)
+npm list -g --depth=0 > "$tmpList"
 for package in ${package_list[@]}; do
-    if [[ ! $(cat /tmp/tmp_npm_list.txt | grep $package) ]]; then
+    if [[ ! $(cat "$tmpList" | grep $package) ]]; then
         npm install -g --quiet $package
         success "$package has been installed"
     else
         info "$package is already installed"
     fi
 done
+rm -f "$tmpList"
 
 echo ''
 info "Installing the nvim plugin manager..."

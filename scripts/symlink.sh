@@ -7,7 +7,6 @@ fi
 
 # Use GNU find for printf option
 command -v gfind > /dev/null && alias find="gfind"
-which find
 
 echo ''
 info "Beginning symlink process..."

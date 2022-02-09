@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
 
+usage()
+{
+    echo ""
+    echo "Usage: $0 [OPTION]..."
+    echo -e "\t-i    only run package installation, optional"
+    echo -e "\t-s    only run dotfile symlink creation, optional"
+    exit 1 # Exit script after printing help
+}
+
+if [[ $# -ge 2 ]] ; then
+    usage
+fi
+
+script_opt=""
+while getopts ":is" opt; do
+    case "$opt" in
+        i) script_opt="installonly";;
+        s) script_opt="symlinkonly";;
+        ?) usage ;; # Print helpFunction in case parameter is non-existent
+    esac
+done
+
 # Logging functions
 info () {
     printf "\r  [ \033[00;34m..\033[0m ] $1\n"
@@ -17,7 +39,7 @@ fail () {
 }
 
 # Run as sudo due to installs/upgrades
-[ "$OSTYPE" != "darwin"* ] || [ "$EUID" -neq 0 ] || fail "Please run with root privileges. Exiting script..."
+[ "$OSTYPE" == "darwin"* ] || [ "$EUID" -eq 0 ] || fail "Please run with root privileges. Exiting script..."
 
 cd "$(dirname "$0")/."
 HOME_DIR=$(dirname "$PWD")
@@ -58,8 +80,7 @@ fi
 info "Using the $manager package manager..."
 
 # Sourcing files to maintain chmod -x permissions and variables
-. "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
-
-. "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
+[[ "$script_opt" == "symlinkonly" ]] || . "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
+[[ "$script_opt" == "installonly" ]] || . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
 
 echo "Setup completed! Make sure to switch the shell to zsh, reopen the terminal, and run :PackerCompile/:PackerInstall within Neovim"
