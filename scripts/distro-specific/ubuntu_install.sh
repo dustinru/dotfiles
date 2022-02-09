@@ -1,14 +1,6 @@
 # neovim, bat, ripgrep, delta, fzf
 if [ ! -x "$(command -v nvim)" ]; then
-    wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -O /tmp/nvim.appimage
-    chmod u+x /tmp/nvim.appimage
-    /tmp/nvim.appimage --appimage-extract
-    /tmp/squashfs-root/AppRun --version
-    mv /tmp/squashfs-root /
-    ln -s /squashfs-root/AppRun /usr/bin/nvim
-    success "nvim has been installed"
-else
-    info "nvim is already installed"
+    fail "Please install neovim before continuing further. Exiting script..."
 fi
 
 if [ ! -x "$(command -v batcat)" ] || [ ! -x "$(command -v rg)" ]; then
