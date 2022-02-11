@@ -12,7 +12,7 @@ A repository and programmatic setup of my dot files for MacOS, Windows (WSL), an
 
 ### Prerequisites
 
-Supported OS: MacOS, Ubuntu, Arch Linux
+Supported OS: Ubuntu (Native/WSL), Arch Linux, MacOS
 
 #### Windows
 
@@ -39,9 +39,19 @@ Supported OS: MacOS, Ubuntu, Arch Linux
 
 4. Install Ubuntu 20.04 or your preferred OS from the [Microsoft Store](https://www.microsoft.com/en-us/p/ubuntu-2004-lts/9n6svws3rx71)
 
-#### MacOS
+#### Ubuntu (Native/WSL)
 
-1. Install a terminal emulator (e.g. iterm2, kitty, etc.)
+1. Install neovim
+
+    ```bash
+    # Stable
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    # Nightly
+    sudo add-apt-repository ppa:neovim-ppa/unstable
+
+    sudo apt-get update
+    sudo apt-get install neovim
+    ```
 
 #### Arch Linux
 
@@ -53,6 +63,10 @@ Supported OS: MacOS, Ubuntu, Arch Linux
     cd yay
     makepkg -si
     ```
+
+#### MacOS
+
+1. Install a terminal emulator (e.g. iterm2, kitty, etc.)
 
 ---
 
@@ -86,3 +100,45 @@ Plugin Manager: packer.nvim
 
 * Prefixless keybindings
 * Autostart tmux in new terminal
+
+## Common Errors/Issues
+
+### Various Permission Denied Errors for Neovim
+
+```log
+> nvim .gitconfig
+E886: System error while opening ShaDa file /home/dustinr/.local/share/nvim/shada/main.shada for reading: permission denied
+E303: Unable to create directory "/home/dustinr/.local/share/nvim/swap" for swap file, recovery impossible: permission denied
+E303: Unable to open swap file for "/home/dustinr/.gitconfig", recovery impossible
+E886: System error while opening ShaDa file /home/dustinr/.local/share/nvim/shada/main.shada for reading: permission denied
+```
+
+To address this, you need to change ownership of the various ~/.local/share/nvim files/directories:
+
+```bash
+sudo chown -R "${USER}" ~/.local
+```
+
+### Neovim unable to create directory
+
+```log
+[ERROR Wed Feb  9 10:33:49 2022 3.72275146663e+14] .../site/pack/packer/start/packer.nvim/lua/packer/async.lua:20: Error in coroutine: Vim:E739: Cannot create directory /home/dustinr/.config/nvim/plugin: permission denied
+```
+
+To work around this, you need to manually create the directory:
+
+```bash
+sudo mkdir -p ~/.config/nvim/plugin
+```
+
+### Neovim errors with indexing local (a nil value)
+
+```log
+[ERROR Wed Feb  9 12:21:05 2022 3.787105013973e+14] .../site/pack/packer/start/packer.nvim/lua/packer/async.lua:20: Error in coroutine: ...e/nvim/site/pack/packer/start/packer.nvim/lua/packer.lua:701: attempt to index local 'output_file' (a nil value)
+```
+
+To address this, you need to change ownership of the ~/.config/nvim/plugin directory:
+
+```bash
+sudo chown $USER ~/.config/nvim/plugin
+```
