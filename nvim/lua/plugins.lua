@@ -1,3 +1,13 @@
+local fn = vim.fn
+
+-- Auto-install packer in case it hasn't been installed.
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+  vim.api.nvim_echo({{'Installing packer.nvim', 'Type'}}, true, {})
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
 -- Autorun ':PackerCompile' whenever plugins.lua is updated
 vim.cmd([[
   augroup packer_user_config
@@ -6,40 +16,24 @@ vim.cmd([[
   augroup end
 ]])
 
-local execute = vim.api.nvim_command
-local fn = vim.fn
-
-local packer_install_dir = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-
-local plug_url_format = 'https://github.com/%s'
-local packer_repo = string.format(plug_url_format, 'wbthomason/packer.nvim')
-local install_cmd = string.format('10split |term git clone --depth=1 %s %s', packer_repo, packer_install_dir)
-
-if fn.empty(fn.glob(packer_install_dir)) > 0 then
-  vim.api.nvim_echo({{'Installing packer.nvim', 'Type'}}, true, {})
-  execute(install_cmd)
-  execute 'packadd packer.nvim'
-end
-
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-
 -- the plugin install follows from here
--- ....
-return require('packer').startup({
+require('packer').startup({
   function(use)
     -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
+    use { "wbthomason/packer.nvim" }
+
     -- Performance improvements
     use "nathom/filetype.nvim"
     use 'lewis6991/impatient.nvim'
     use 'dstein64/vim-startuptime'
+
     -- QoL fixes/additions
     use 'wellle/targets.vim'
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
     use 'tpope/vim-commentary'
     use 'ggandor/lightspeed.nvim'
+
     -- Syntax highlighting, language servers, and autocompletion
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
@@ -64,6 +58,7 @@ return require('packer').startup({
         end
     }
     use "rafamadriz/friendly-snippets"
+
     -- UI Additions
     use {
       'nvim-lualine/lualine.nvim',
@@ -82,6 +77,7 @@ return require('packer').startup({
     }
     use 'ray-x/lsp_signature.nvim'
     use {'kevinhwang91/nvim-bqf'}
+
     -- Miscellaneous UI
     use {
       "folke/which-key.nvim",
@@ -92,6 +88,7 @@ return require('packer').startup({
       end
     }
     use {"akinsho/toggleterm.nvim"}
+
     -- Language-specific 
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
@@ -100,9 +97,11 @@ return require('packer').startup({
       run = function() vim.fn['mkdp#util#install']() end,
       ft = {'markdown'}
     }
+
     -- Formatting
     use 'windwp/nvim-autopairs'
     use {'prettier/vim-prettier', run = 'yarn install' }
+    
     -- Appearance
     use 'sainnhe/gruvbox-material'
     use 'kyazdani42/nvim-web-devicons'
@@ -115,5 +114,9 @@ return require('packer').startup({
         }
       end
     }
+
+    if packer_bootstrap then
+      require('packer').sync()
+    end
   end
 })
