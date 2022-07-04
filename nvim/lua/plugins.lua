@@ -20,7 +20,7 @@ vim.cmd([[
 require('packer').startup({
   function(use)
     -- Packer can manage itself
-    use { "wbthomason/packer.nvim" }
+    use 'wbthomason/packer.nvim'
 
     -- Performance improvements
     use "nathom/filetype.nvim"
@@ -51,12 +51,7 @@ require('packer').startup({
     use 'ntpeters/vim-better-whitespace'
     use "lukas-reineke/indent-blankline.nvim"
     use 'norcalli/nvim-colorizer.lua'
-    use {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
-    }
+    use 'numToStr/Comment.nvim'
     use "rafamadriz/friendly-snippets"
 
     -- UI Additions
@@ -66,45 +61,36 @@ require('packer').startup({
     }
     use 'mhinz/vim-signify'
     use {
-        'kyazdani42/nvim-tree.lua',
-        requires = {
-          'kyazdani42/nvim-web-devicons', -- optional, for file icon
-        },
-        config = function() require'nvim-tree'.setup {} end
+      'kyazdani42/nvim-tree.lua',
+      requires = {'kyazdani42/nvim-web-devicons'} -- optional, for file icons
     }
     use { 'ibhagwan/fzf-lua',
       requires = { 'kyazdani42/nvim-web-devicons' }
     }
     use 'ray-x/lsp_signature.nvim'
-    use {'kevinhwang91/nvim-bqf'}
-
-    -- Miscellaneous UI
-    use {
-      "folke/which-key.nvim",
-      config = function()
-        require("which-key").setup {
-          -- Default Config
-        }
-      end
-    }
-    use {"akinsho/toggleterm.nvim"}
+    --use {'kevinhwang91/nvim-bqf'}
+    --use 'folke/which-key.nvim'
 
     -- Language-specific 
     use 'godlygeek/tabular'
-    use 'plasticboy/vim-markdown'
-    use {
-      'iamcco/markdown-preview.nvim',
-      run = function() vim.fn['mkdp#util#install']() end,
-      ft = {'markdown'}
-    }
+    use 'preservim/vim-markdown'
+    -- install without yarn or npm
+    use({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+    })
 
     -- Formatting
-    use 'windwp/nvim-autopairs'
+    use {
+      "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
     use {'prettier/vim-prettier', run = 'yarn install' }
     
     -- Appearance
     use 'sainnhe/gruvbox-material'
     use 'kyazdani42/nvim-web-devicons'
+    --[[
     use {
       "folke/trouble.nvim",
       requires = "kyazdani42/nvim-web-devicons",
@@ -114,6 +100,7 @@ require('packer').startup({
         }
       end
     }
+    ]]--
 
     if packer_bootstrap then
       require('packer').sync()
