@@ -90,6 +90,7 @@ require('packer').startup({
     -- Appearance
     use 'sainnhe/gruvbox-material'
     use 'kyazdani42/nvim-web-devicons'
+    -- use 'folke/twilight.nvim'
     --[[
     use {
       "folke/trouble.nvim",

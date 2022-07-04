@@ -1,5 +1,8 @@
 local opt = vim.opt
 
+opt.termguicolors=true
+vim.cmd('colorscheme gruvbox-material')
+
 opt.syntax = 'on'                           -- Enables syntax highlighing
 opt.hidden = true                           -- Required to keep multiple buffers open multiple buffers
 opt.wrap = false                            -- Display long lines as just one line
@@ -33,3 +36,4 @@ opt.formatoptions:remove('cro')             -- Stop newline continution of comme
 opt.clipboard = 'unnamedplus'               -- Copy paste between vim and everything else
 opt.completeopt = 'menu,menuone,noselect'   -- Completion for nvim-cmp
 opt.signcolumn = 'yes'
+
