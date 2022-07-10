@@ -331,3 +331,6 @@ require'colorizer'.setup()
 require('Comment').setup()
 -- empty setup using defaults
 require("nvim-tree").setup()
+-- vim-prettier
+vim.g["prettier#autoformat"] = 0
+vim.g["prettier#autoformat_require_pragma"] = 1

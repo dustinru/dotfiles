@@ -31,7 +31,7 @@ require('packer').startup({
     use 'wellle/targets.vim'
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
-    use 'tpope/vim-commentary'
+    --use 'tpope/vim-commentary' -- use comment.nvim
     use 'ggandor/lightspeed.nvim'
 
     -- Syntax highlighting, language servers, and autocompletion
@@ -81,12 +81,12 @@ require('packer').startup({
     })
 
     -- Formatting
-    use {
-      "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
+    use { "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end
     }
-    use {'prettier/vim-prettier', run = 'yarn install' }
-    
+    use { 'prettier/vim-prettier',
+      run = 'yarn install --frozen-lockfile --production'
+    }
     -- Appearance
     use 'sainnhe/gruvbox-material'
     use 'kyazdani42/nvim-web-devicons'
