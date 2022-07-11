@@ -72,7 +72,7 @@ A repository and programmatic setup of my dot files for MacOS, Windows (WSL), an
 </details>
 
 #### Manual Installation
-Click [here](../../Manual-Installation) for manual installation steps.
+Click [here](../../Manual-Installation) for manual package installation steps.
 
 ---
 
@@ -88,7 +88,7 @@ chmod +x bootstrap.sh
 
 This script performs the dotfile symlink creation with an optional package installation according to the OS.
 ```bash
-# Create symlinks only
+# create symlinks only
 ./bootstrap.sh
 ```
 
