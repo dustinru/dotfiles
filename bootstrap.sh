@@ -1,28 +1,15 @@
 #!/usr/bin/env bash
 
+# Helper Functions
 usage()
 {
     echo ""
     echo "Usage: $0 [OPTION]..."
     echo -e "\t-i    only run package installation, optional"
-    echo -e "\t-s    only run dotfile symlink creation, optional"
+    echo -e "\t-b    run both dotfile symlink creation and package installation, optional"
     exit 1 # Exit script after printing help
 }
-
-if [[ $# -ge 2 ]] ; then
-    usage
-fi
-
-script_opt=""
-while getopts ":is" opt; do
-    case "$opt" in
-        i) script_opt="installonly";;
-        s) script_opt="symlinkonly";;
-        ?) usage ;; # Print helpFunction in case parameter is non-existent
-    esac
-done
-
-# Logging functions
+# Logging Functions
 info () {
     printf "\r  [ \033[00;34m..\033[0m ] $1\n"
 }
@@ -37,6 +24,22 @@ fail () {
     echo ''
     exit 1
 }
+
+
+# Main Script
+if [[ $# -ge 2 ]] ; then
+    usage
+fi
+
+script_opt=""
+while getopts ":is" opt; do
+    case "$opt" in
+        i) script_opt="installonly";;
+        b) script_opt="both";;          # will never be passed. just to allow script to proceed
+        :) script_opt="symlinkonly";;   # symlinkonly if no argument passed
+        ?) usage ;; # Print helpFunction in case parameter is non-existent
+    esac
+done
 
 # Run as sudo due to installs/upgrades
 [ "$OSTYPE" == "darwin"* ] || [ "$EUID" -eq 0 ] || fail "Please run with root privileges. Exiting script..."
@@ -59,7 +62,6 @@ info "Determining OS for script running..."
 # Check OS (Linux (Ubuntu/WSL/Arch), or MacOS)
 if [[ $OSTYPE == "linux"* ]]; then
     success "Detected system: Linux"
-    
     unameR="$(uname -r)"
     case "$unameR" in
     *arch*)                 manager="pacman";;

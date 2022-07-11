@@ -12,9 +12,10 @@ A repository and programmatic setup of my dot files for MacOS, Windows (WSL), an
 
 ### Prerequisites
 
-Supported OS: Ubuntu (Native/WSL), Arch Linux, MacOS
+> Supported OS: MacOS, Linux (Ubuntu/Arch)
 
-#### Windows
+<details>
+<summary>Windows (WSL)</summary>
 
 1. Make sure to enable Virtualization
 
@@ -39,13 +40,14 @@ Supported OS: Ubuntu (Native/WSL), Arch Linux, MacOS
 
 4. Install Ubuntu 20.04 or your preferred OS from the [Microsoft Store](https://www.microsoft.com/en-us/p/ubuntu-2004-lts/9n6svws3rx71)
 
-#### Ubuntu (Native/WSL)
+</details>
+
+<details>
+<summary>Ubuntu</summary>
 
 1. Install neovim
 
     ```bash
-    # Stable
-    sudo add-apt-repository ppa:neovim-ppa/stable
     # Nightly
     sudo add-apt-repository ppa:neovim-ppa/unstable
 
@@ -53,7 +55,10 @@ Supported OS: Ubuntu (Native/WSL), Arch Linux, MacOS
     sudo apt-get install neovim
     ```
 
-#### Arch Linux
+</details>
+
+<details>
+<summary>Arch Linux</summary>
 
 1. Install yay
 
@@ -64,9 +69,10 @@ Supported OS: Ubuntu (Native/WSL), Arch Linux, MacOS
     makepkg -si
     ```
 
-#### MacOS
+</details>
 
-1. Install a terminal emulator (e.g. iterm2, kitty, etc.)
+#### Manual Installation
+Click [here](../../Manual-Installation) for manual installation steps.
 
 ---
 
@@ -80,7 +86,20 @@ chmod +x bootstrap.sh
 
 ## Usage
 
-This script has 2 major components: package installation and dotfiles symlink creation.
+This script performs the dotfile symlink creation with an optional package installation according to the OS.
+```bash
+# Create symlinks only
+./bootstrap.sh
+```
+
+#### Optional Parameters
+```bash
+# use -i to install packages only
+./bootstrap -i
+
+# use -b to create symlinks and install packages
+./bootstrap -b
+```
 
 ## Features
 
