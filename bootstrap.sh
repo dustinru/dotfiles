@@ -31,12 +31,11 @@ if [[ $# -ge 2 ]] ; then
     usage
 fi
 
-script_opt=""
-while getopts ":is" opt; do
-    case "$opt" in
+script_opt="symlinkonly" # default behavior
+while getopts ":ib" opt; do
+    case "$opt" in 
         i) script_opt="installonly";;
-        b) script_opt="both";;          # will never be passed. just to allow script to proceed
-        :) script_opt="symlinkonly";;   # symlinkonly if no argument passed
+        b) script_opt="both";;          
         ?) usage ;; # Print helpFunction in case parameter is non-existent
     esac
 done
@@ -82,13 +81,7 @@ fi
 info "Using the $manager package manager..."
 
 # Sourcing files to maintain chmod -x permissions and variables
-
-case "$script_opt" in
-    installonly)    . "$DOTFILES_ROOT/scripts/install.sh" $manager;;
-    symlinkonly)    . "$DOTFILES_ROOT/scripts/symlink.sh";;   # symlinkonly if no argument passed
-    both)   . "$DOTFILES_ROOT/scripts/install.sh" $manager;
-            . "$DOTFILES_ROOT/scripts/symlink.sh";;          # will never be passed. just to allow script to proceed
-    ?) exit 1;;
-esac
+[[ "$script_opt" == "symlinkonly" ]] || . "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
+[[ "$script_opt" == "installonly" ]] || . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
 
 echo "Setup completed! Make sure to switch the shell to zsh, reopen the terminal, and run :PackerCompile/:PackerInstall within Neovim"
