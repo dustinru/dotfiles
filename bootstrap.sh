@@ -82,7 +82,13 @@ fi
 info "Using the $manager package manager..."
 
 # Sourcing files to maintain chmod -x permissions and variables
-[[ "$script_opt" == "symlinkonly" ]] || . "$DOTFILES_ROOT/scripts/install.sh" $manager || exit 1
-[[ "$script_opt" == "installonly" ]] || . "$DOTFILES_ROOT/scripts/symlink.sh" || exit 1
+
+case "$script_opt" in
+    installonly)    . "$DOTFILES_ROOT/scripts/install.sh" $manager;;
+    symlinkonly)    . "$DOTFILES_ROOT/scripts/symlink.sh";;   # symlinkonly if no argument passed
+    both)   . "$DOTFILES_ROOT/scripts/install.sh" $manager;
+            . "$DOTFILES_ROOT/scripts/symlink.sh";;          # will never be passed. just to allow script to proceed
+    ?) exit 1;;
+esac
 
 echo "Setup completed! Make sure to switch the shell to zsh, reopen the terminal, and run :PackerCompile/:PackerInstall within Neovim"
