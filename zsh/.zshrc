@@ -86,7 +86,7 @@ plugins=(
 	git
 	tmux
 	sudo
-	copydir
+	copypath
 	copyfile
 	zsh-autosuggestions
 	zsh-syntax-highlighting

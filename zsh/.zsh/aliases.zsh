@@ -19,6 +19,7 @@ alias vi=vim                                    # set nvim as default vi
 alias c='clear'                                 # faster clear
 alias y='yarn'
 alias ffs='sudo !!'                             # run previous command with sudo
+alias xclip='xclip -selection c'		# copy output to clipboard
 
 # [Typos]
 alias gerp=grep                                 # avoid grep typos
