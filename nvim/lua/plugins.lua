@@ -1,5 +1,9 @@
 local fn = vim.fn
 
+if vim.loop.os_uname().sysname == "Darwin" then
+  vim.o.runtimepath = vim.fn.stdpath('data') .. '/site/pack/*/start/*,' .. vim.o.runtimepath
+end
+
 -- Auto-install packer in case it hasn't been installed.
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
