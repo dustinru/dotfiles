@@ -38,13 +38,22 @@ alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # [Shortcuts]
 alias mtr='sudo /usr/local/sbin/mtr'            # mtr shortcut
-alias reload='source ~/.zshrc'                  # reload terminal
-alias zshconfig='sudo nvim ~/.zshrc'            # edit zsh config file
 alias dev='cd ~/dev'                            # shortcut to dev folder
-alias zshalias='nvim ~/.zsh/aliases.zsh'        # shortcut to edit aliases
 alias dotfiles='cd ~/.dotfiles'                 # shortcut to dotfile directory
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
+
+# [Configuration]
+alias reload='source ~/.zshrc'	# reload terminal
+alias zshrc='sudo nvim ~/.dotfiles/zsh/.zshrc'            	# edit .zshrc
+alias zprofile='sudo nvim ~/.dotfiles/zsh/.zprofile'		# edit .zprofile
+alias zshalias='sudo nvim ~/.dotfiles/zsh/.zsh/aliases.zsh' 	# edit general aliases
+alias zshwork='sudo nvim ~/.dotfiles/zsh/.zsh/work.zsh'		# edit work-specific aliases
+alias xinitrc='sudo nvim ~/.dotfiles/xinit/.xinitrc'
+alias tmuxconf='sudo nvim ~/.dotfiles/tmux/.tmux.conf'
+alias sxhkdrc='sudo nvim ~/.dotfiles/sxhkd/sxhkdrc'
+alias bspwmrc='sudo nvim ~/.dotfiles/bspwm/bspwmrc'
+alias kittyconf='sudo nvim ~/.dotfiles/kitty/kitty.conf'
 
 # [Alternative Commands for MacOS]
 # use `md5` as a fallback for macOS
