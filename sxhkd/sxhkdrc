@@ -5,15 +5,15 @@
 
 # terminal emulator
 super + Return
-	kitty -e /usr/bin/zsh
+	kitty
 
 # program launcher
 super + @space
-	rofi
+	rofi -combi-modi window,drun,ssh -theme gruvbox-dark -font "hack 10" -show combi -icon-theme "Papirus" -show-icons
 
 # reload sxhkd configuration
 super + Escape
-	pkill -SUR1 -x sxhkd
+	pkill -USR1 -x sxhkd
 
 
 #################

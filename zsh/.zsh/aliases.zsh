@@ -53,7 +53,10 @@ alias xinitrc='sudo nvim ~/.dotfiles/xinit/.xinitrc'
 alias tmuxconf='sudo nvim ~/.dotfiles/tmux/.tmux.conf'
 alias sxhkdrc='sudo nvim ~/.dotfiles/sxhkd/sxhkdrc'
 alias bspwmrc='sudo nvim ~/.dotfiles/bspwm/bspwmrc'
-alias kittyconf='sudo nvim ~/.dotfiles/kitty/kitty.conf'
+alias kittyconfig='sudo nvim ~/.dotfiles/kitty/kitty.conf'
+alias polyconfig='sudo nvim ~/.dotfiles/polybar/config.ini'
+alias polylaunch='sudo nvim ~/.dotfiles/polybar/launch.sh'
+alias roficonfig='sudo nvim ~/.dotfiles/rofi/config.rasi'
 
 # [Alternative Commands for MacOS]
 # use `md5` as a fallback for macOS
