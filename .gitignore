@@ -17,5 +17,6 @@ zsh_history
 .bash_local
 .bash_logout
 
-# log files
+# filetypes
 .*log
+.DS_Store
