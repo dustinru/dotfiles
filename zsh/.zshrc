@@ -98,7 +98,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 for config (~/.zsh/*.zsh) source $config
 
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment

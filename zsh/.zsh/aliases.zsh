@@ -20,6 +20,7 @@ alias c='clear'                                 # faster clear
 alias y='yarn'
 alias ffs='sudo !!'                             # run previous command with sudo
 alias xclip='xclip -selection c'		# copy output to clipboard
+alias nnn='nnn -d -H'
 
 # [Typos]
 alias gerp=grep                                 # avoid grep typos
@@ -35,6 +36,11 @@ alias jstat='jobs -l'                           # list running jobs
 alias path='echo -e ${PATH//:/\\n}'             # print each PATH entry on a separate line
 alias duf='du -h --max-depth=1 | sort -rh'      # list out folders by size
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias xorgkc="xmodmap -pke"			# list all keycodes in Xorg
+# output live keycodes in Xorg
+xorgkclive() {
+	xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
+}
 
 # [Shortcuts]
 alias mtr='sudo /usr/local/sbin/mtr'            # mtr shortcut

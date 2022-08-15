@@ -39,10 +39,5 @@ fi
 #xterm -geometry 80x20+494-0 &
 #exec xterm -geometry 80x66+0+0 -name login
 # start x
-{
-	sleep 1; \
-	xrandr --output eDP-1 --auto; \
-	"$HOME/.config/polybar/launch"
-} &
 
 exec bspwm

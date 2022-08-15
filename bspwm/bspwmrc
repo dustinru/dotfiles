@@ -16,5 +16,11 @@ bspc config gapless_monocle	true
 #bspc rule -a Kupfer.py focus=on
 #bspc rule -a Screenkey manage=off
 
-# Launch Polybar
+# load desktop background
+~/.fehbg &
+
+# Autostart utils
+dunst &
+picom -b &
+
 $HOME/.config/polybar/launch.sh
