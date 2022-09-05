@@ -6,8 +6,15 @@ alias tools='cd $HOME/Documents/tools' # tools/utilities directory
 # Run PHP for TAM Encrypt/Decrypt Tool
 tamtool() {
         cd $HOME/Documents/tools/tam-utils/Curtis_Tool;
-        open http://localhost:8000;
+        open http://localhost:8000/encryptTool.php;
         php -S localhost:8000
+}
+
+# Run PHP for Curtis' Polling Tool
+pollingtool() {
+  cd $HOME/Documents/tools/tam-utils/Curtis_Tool;
+  open http://localhost:8000/pollingURLgenerator.php;
+  php -S localhost:8000
 }
 
 # Alias for tamAdvisor
