@@ -3,10 +3,10 @@
 alias addsc='sudo ~/Downloads/addSE/addSecurityExceptions.sh'	# add network security config
 alias tools='cd $HOME/Documents/tools' # tools/utilities directory
 
-# Run PHP for TAM Encrypt/Decrypt Tool
+# Run PHP for mediation rewrite tool
 tamtool() {
         cd $HOME/Documents/tools/tam-utils/Curtis_Tool;
-        open http://localhost:8000/encryptTool.php;
+        open http://localhost:8000;
         php -S localhost:8000
 }
 
@@ -14,6 +14,13 @@ tamtool() {
 pollingtool() {
   cd $HOME/Documents/tools/tam-utils/Curtis_Tool;
   open http://localhost:8000/pollingURLgenerator.php;
+  php -S localhost:8000
+}
+
+# Run PHP for encrypt/decrypt tool
+encrypttool() {
+  cd $HOME/Documents/tools/tam-utils/Curtis_Tool;
+  open http://localhost:8000/encryptTool.php;
   php -S localhost:8000
 }
 
