@@ -12,8 +12,10 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-if [ "$(uname)" == "Darwin" ]; then
-  export PATH=/opt/homebrew/bin:$Path
+
+# Homebrew on M1 Pro
+if [ "$(uname)" = "Darwin" ]; then
+  export PATH=/opt/homebrew/bin:$PATH
 fi
 
 # Path to your oh-my-zsh installation.

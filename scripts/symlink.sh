@@ -13,15 +13,20 @@ info "Beginning symlink process..."
 echo ''
 
 nvim_config_home="$HOME_DIR/.config/nvim"
+kitty_config_home="$HOME_DIR/.config/kitty"
 mkdir -p $nvim_config_home
+mkdir -p $kitty_config_home
 
-config_folder_list=("tmux" "zsh" "nvim")
+config_folder_list=("tmux" "zsh" "nvim" "kitty")
 for folder in ${config_folder_list[@]}; do
     for file in $(find -H "$DOTFILES_ROOT/$folder" -maxdepth 1 -mindepth 1 | sed 's#.*/##'); do
         parent_folder=$HOME_DIR
         if [ $folder = "nvim" ]; then
             parent_folder=$nvim_config_home
+        elif [ $folder = "kitty" ]; then
+            parent_folder=$kitty_config_home
         fi
+
         src_path="$DOTFILES_ROOT/$folder/$file"
         sym_path="$parent_folder/$file"
         
