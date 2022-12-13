@@ -17,6 +17,13 @@ zsh_history
 .bash_local
 .bash_logout
 
+# nvim
+.nvimlog
+.nul
+.null
+nul
+null
+
 # filetypes
 .*log
 .DS_Store

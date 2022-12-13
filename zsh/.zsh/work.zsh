@@ -29,3 +29,7 @@ tamadvisor() {
 	cd $HOME/Documents/tools/Integration-Scripts/JS/tamAdvisor;
 	npm start
 }
+
+logcat() {
+
+}
