@@ -26,10 +26,13 @@ encrypttool() {
 
 # Alias for tamAdvisor
 tamadvisor() {
-	cd $HOME/Documents/tools/Integration-Scripts/JS/tamAdvisor;
+	cd $HOME/dev/tools/Integration-Scripts/JS/tamAdvisor;
 	npm start
 }
 
 logcat() {
 
 }
+
+# Path for flutter commands in zsh
+export PATH=~/dev/flutter/flutter/bin:$PATH

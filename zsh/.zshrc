@@ -146,3 +146,10 @@ if [ -f /usr/share/autojump/autojump.zsh ]; then
   source /usr/share/autojump/autojump.zsh
 fi
 export COLORTERM=truecolor
+
+PATH=~/.console-ninja/.bin:$PATH
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+# Adding Ruby to path
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export PATH="$PATH:$GEM_HOME/bin"
